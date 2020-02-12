@@ -12,7 +12,7 @@
 
 ## NO code needs to be stored in the root of your repository. You may rename the application folder if you like to your team's application name. But all source code related to your team's application should be stored inside the application folder.
 
-## Team:          Name                    Email                               Role
+# Team:           Name                    Email                               Role
                   Cassie Sherman          cassiesherman630@gmail.com          Team Lead
                   Ryan Hu                 123edu@gmail.com                    Back End Lead
                   Mariam Shahab           mariamshahab2@gmail.com             Front End Lead

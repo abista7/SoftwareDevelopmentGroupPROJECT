@@ -20,4 +20,3 @@
                   Sawara Bhattarai        sbhattarai@mail.sfsu.edu            Git Hub Lead
                   Dylan Luong             dluong1@mail.sfsu.edu               Database Lead
                   Arjun Bista             arjunbista428@gmail.com             Documentation Lead
-

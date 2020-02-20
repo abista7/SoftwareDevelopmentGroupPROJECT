@@ -1,6 +1,6 @@
 # Credentials Folder
 
-1. Server URL or IP: `[lingomingo.app]`(https://lingomingo.app/) | `34.213.215.231`
+1. Server URL or IP: [`lingomingo.app`](https://lingomingo.app/) | `34.213.215.231`
 2. SSH username: `ubuntu`
 3. SSH password or key: `key.pem` & `key.pkk` included in the current directory
 4. Database URL or IP and port: `localhost:5432`

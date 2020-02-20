@@ -1,22 +1,41 @@
 # Credentials Folder
 
-## The purpose of this folder is to store all credentials needed to log into your server and databases. This is important for many reasons. But the two most important reasons is
-    1. Grading , servers and databases will be logged into to check code and functionality of application. Not changes will be unless directed and coordinated with the team.
-    2. Help. If a class TA or class CTO needs to help a team with an issue, this folder will help facilitate this giving the TA or CTO all needed info AND instructions for logging into your team's server. 
+1. Server URL or IP: `[lingomingo.app]`(https://lingomingo.app/) | `34.213.215.231`
+2. SSH username: `ubuntu`
+3. SSH password or key: `key.pem` & `key.pkk` included in the current directory
+4. Database URL or IP and port: `localhost:5432`
+5. Database username: `lingouser`
+6. Database password: `HDo!n5!eW54z6*E#`
+7. Database name: `lingo`
+8. Django's admin panel: 
+username:`admin `
+password:`yVOiy6^lJj9vT$2Q`
 
+## Connecting To Server Via SSH
+1. Download the key files: `key.pem` for OpenSSH(macOS/Linux), or `key.pkk` for Putty(Windows)
+1. On macOS/Linux terminal: 
+```
+ssh -i /path/to/key.pem ubuntu@34.213.215.231
+```
+#### OR
+1. on Windows Computer, download software ["putty"](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+1. On the left side, click `Connection - Data`, enter `ubuntu` into `"Auto-login username"`
+1. On the left side, click `Connection - SSH - Auth`, click on `Browse` button to locate key.pkk you downloaded.
+1. Click `Session - Host Name`, enter `34.213.215.231` and type LingoAWS into `Saved Sessions` and click `Save`, then click `Open`.
 
-# Below is a list of items required. Missing items will causes points to be deducted from multiple milestone submissions.
+## Acessing Django's Admin Panel
+1. visit [https://lingomingo.app/admin/](https://lingomingo.app/admin/)
+1. login with Username: `admin` and Password: `yVOiy6^lJj9vT$2Q`
 
-1. Server URL or IP
-2. SSH username
-3. SSH password or key.
-    <br> If a ssh key is used please upload the key to the credentials folder.
-4. Database URL or IP and port used.
-    <br><strong> NOTE THIS DOES NOT MEAN YOUR DATABASE NEEDS A PUBLIC FACING PORT.</strong> But knowing the IP and port number will help with SSH tunneling into the database. The default port is more than sufficient for this class.
-5. Database username
-6. Database password
-7. Database name (basically the name that contains all your tables)
-8. Instructions on how to use the above information.
+## Acessing Our PostgreSQL Database
+1. Database can be accessed on only on SSH with ubuntu with root priv
+```bash
+sudo -u postgres psql
+```
+1. To Exit
+```PostgreSQL
+\q
+```
 
 # Most important things to Remember
 ## These values need to kept update to date throughout the semester. <br>

@@ -27,7 +27,10 @@ SECRET_KEY = 'nf3)5(elhe9!c)ht-e5yu1&yu-+133vsv!k!gb$0ozy77y9pz@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['lingomingo.app','34.213.215.231','0.0.0.0']
+if COMPUTER:
+    ALLOWED_HOSTS = ['localhost','0.0.0.0','127.0.0.1']
+else:
+    ALLOWED_HOSTS = ['lingomingo.app', '34.213.215.231', '0.0.0.0']
 
 
 # Application definition

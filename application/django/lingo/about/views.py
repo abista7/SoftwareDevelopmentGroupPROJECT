@@ -6,7 +6,7 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return render(request,'about/index.html')
+    return render(request, 'about/index.html')
 
 
 def arjun(request):
@@ -27,3 +27,7 @@ def sawara(request):
 
 def ryan(request):
     return render(request, 'about/ryan.html')
+
+
+def cassie(request):
+    return render(request, 'about/cassie.html')

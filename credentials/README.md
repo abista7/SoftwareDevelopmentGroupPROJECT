@@ -13,7 +13,11 @@ password:`yVOiy6^lJj9vT$2Q`
 
 ## Connecting To Server Via SSH
 1. Download the key files: `key.pem` for OpenSSH(macOS/Linux), or `key.pkk` for Putty(Windows)
-1. On macOS/Linux terminal: 
+2. Take into consideration that your key file must not be publicly viewable for SSH to work. In order to give the file the right permissions, run the following command. 
+```
+chmod 400 key.pem
+```
+3. On macOS/Linux terminal: 
 ```
 ssh -i /path/to/key.pem ubuntu@34.213.215.231
 ```

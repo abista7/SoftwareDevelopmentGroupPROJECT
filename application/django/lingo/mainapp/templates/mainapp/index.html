@@ -1,0 +1,43 @@
+<html5>
+    <head>
+        <title>LingoMingo | lingomingo.app</title>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+
+    <body>
+
+    <form action="" method="get">
+        <label for="name">Search By Name</label>
+        <input type="text" name="name" placeholder="Search By Name">
+
+
+
+        <input type="submit">
+    </form>
+    <form>
+        <label for="gender">Filter By Gender</label>
+        <select id="gender" name="gender">
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="O">Other</option>
+        </select>
+        <input type="submit">
+    </form>
+
+    {% if profile_list %}
+        <ul>
+            {% for profile in profile_list %}
+                <li><a href="/profile/{{ profile.id }}">{{ profile.name }}, {{ profile.email }}</a></li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <h1>NO PROFILES</h1>
+    {% endif %}
+
+
+    </body>
+</html5>
+
+
+

@@ -6,7 +6,7 @@ from .models import Profile
 
 def index(request):
     if request.GET.get('name'):
-        profile_list= Profile.objects.filter(name__contains=request.GET.get('name'))
+        profile_list= Profile.objects.filter(name__icontains=request.GET.get('name'))
     elif request.GET.get('gender'):
         profile_list = Profile.objects.filter(gender=request.GET.get('gender'))
     else:

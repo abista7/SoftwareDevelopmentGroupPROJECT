@@ -8,6 +8,10 @@
 #stupid apple
 .DS_Store
 
+#venv
+venv_win/
+venv/
+
 ### Django ###
 *.log
 *.pot

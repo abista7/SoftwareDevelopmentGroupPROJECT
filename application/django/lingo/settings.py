@@ -37,7 +37,6 @@ else:
 
 INSTALLED_APPS = [
     'lingo.mainapp',
-    'lingo.about',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

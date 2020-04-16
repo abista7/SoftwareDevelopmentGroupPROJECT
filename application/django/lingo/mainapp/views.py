@@ -17,4 +17,4 @@ def index(request):
 
 def profile(request, profile_id):
     profile = get_object_or_404(Profile, pk=profile_id)
-    return render(request,'mainapp/profile.html', context={'profile':profile})
+    return render(request, 'mainapp/profile.html', context={'profile':profile})

@@ -53,7 +53,7 @@ activate venv
 
 make sure everything is installed on requirement.txt
 
-```pip3 install -r requirement.txt```
+```pip install -r requirement.txt```
 
 make manage.py executable
 

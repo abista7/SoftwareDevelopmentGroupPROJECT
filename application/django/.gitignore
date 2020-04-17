@@ -12,6 +12,9 @@
 venv_win/
 venv/
 
+#static
+static/
+
 ### Django ###
 *.log
 *.pot

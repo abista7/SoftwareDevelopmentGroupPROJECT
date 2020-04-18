@@ -1,6 +1,7 @@
 # Application Folder
 
 ## Purpose
+
 The purpose of this folder is to store all the source code and related files for your team's application. Source code MUST NOT be in any of folder. <strong>YOU HAVE BEEN WARNED</strong>
 
 You are free to organize the contents of the folder as you see fit. But remember your team is graded on how you use Git. This does include the structure of your application. Points will be deducted from poorly structured application folders.
@@ -13,15 +14,13 @@ You are free to organize the contents of the folder as you see fit. But remember
 
 django/ : our backend framework
 
-django/lingo : our Django project
+django/lingomingo: our Django project
 
-django/lingo/mainapp : the main Django app, all site related backend files shall reside here
+django/mainapp : the main Django app, all site related backend files shall reside here
 
-django/lingoenv : virtual environment for Unix like system
+django/mainapp/static/: static files such as js/css resides here, can be collected for deployment by running ```./manage.py collectstatic``` in production set up
 
-django/venv_win : virtual environment for Windows
-
-doing/tempaltes/mainapp : template html files for our front end team
+django/tempaltes/mainapp : template html files for our front end team
 
 
 
@@ -47,9 +46,13 @@ go to django folder
 
 ``` cd application/django```
 
+create venv
+
+```python3 -m venv venv```
+
 activate venv
 
-```source lingoenv/bin/activate```
+```source venv/bin/activate```
 
 make sure everything is installed on requirement.txt
 
@@ -62,6 +65,10 @@ make manage.py executable
 migrate database
 
 ```./manage.py migrate```
+
+populate the language table
+
+```python3 scripts\populate_language_table.py```
 
 create super user to use the django admin panel
 
@@ -79,9 +86,48 @@ once you have the project open you can either run the project in PyCharm or run 
 
 ### Windows 
 
-After cloning the repo I manage mostly everything on Pycharm including setting up virtual enviroment in File - Settings - Project:django - Project Interpreter and change the project interpreter to Python3.8 and use venv_win as venv path
+clone this GitHub repo
+
+``` git clone https://github.com/CSC-648-SFSU/csc648-04-sp20-team02.git ```
+
+go to django folder
+
+``` cd application\django```
+
+After cloning the repo , create a virtual environment
+
+```virtualenv venv```
+
+activate your venv
+
+```venv\Scripts\activate```
+
+install the the required dependency
+
+```pip install -r requirement.txt```
+
+migrate database
+
+```manage.py migrate```
+
+populate the language table
+
+```python3 scripts\populate_language_table.py```
+
+create super user to use the django admin panel
+
+```manage.py createsuperuser```
+
+
+
+once those steps are done you can open django folder with your favorite python editor (personally i prefer [PyCharm](https://www.jetbrains.com/pycharm/))
+
+once you have the project open you can either run the project in PyCharm or run the local server in terminal
+
+```manage.py runserver```
+
+
 
 
 
 **Happy Coding! :)**
-

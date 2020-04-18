@@ -1,0 +1,55 @@
+body {
+    background-color: whitesmoke;
+    display: flex;
+    background-repeat: no-repeat;
+    background-size: cover;
+   
+  }
+  
+  
+  div {
+    background-color: white;
+    display: block;
+    width: 700px;
+    border: 0px solid ;
+    border-radius: 2px;
+    padding: 20px 40px;
+    margin: auto;
+    margin-top: 100px;
+    box-shadow: 5px 5px 20px lightgrey;
+  }
+  
+  legend{
+    font-size: 40px;
+  }
+  
+  input {
+    font-size: 14px;
+    display: block;
+    width: 300px;
+    height: 26px;
+  }
+  
+  label{
+    display: block;
+    font-size: 20px;
+  }
+  
+  button{
+    display: block;
+    width: 100px;
+    padding: 5px;
+    border: 2px solid black;
+    border-radius: 6px;
+    font-size: 15px;
+    margin: 10px;
+    background-color: white;
+  }
+  
+  
+  p{
+    font-size: 60px;
+    font-family: 'Lobster', cursive;
+    margin-left: 50px;
+    text-decoration: underline;
+  }

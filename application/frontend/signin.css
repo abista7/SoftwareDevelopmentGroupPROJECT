@@ -1,0 +1,63 @@
+
+body {
+    background-color:whitesmoke;   
+    display: flex;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  div {
+    background-color: whites;
+    width: 700px;
+    border: 0px solid ;
+    border-radius: 1px;
+    padding: 20px 40px;
+    margin: auto;
+    margin-top: 100px;
+    box-shadow: 10px 10px 55px lightgray;
+  }
+  
+  
+  button{
+    width: 100px;
+    padding: 5px;
+    border: 2px solid black;
+    border-radius: 6px;
+    font-size: 15px;
+    margin: 10px;
+    background-color: white;
+  
+  }
+  
+  input {
+    width: 250px;
+    height: 26px;
+    font-size: 17px;
+    display: block;
+    margin-bottom: 20px;
+  }
+  
+  input[type="checkbox"] {
+    display: inline;
+    width:5px;
+    
+  }
+  
+  label{
+    font-size: 24px;
+  }
+  
+  legend{
+    font-size: 40px;
+  }
+  
+  button {
+    display: block;
+  }
+
+  p{
+    font-size: 60px;
+    font-family: 'Lobster', cursive;
+    margin-left: 50px;
+    text-decoration: underline;
+  }

@@ -1,0 +1,63 @@
+{% extends 'mainapp/base.html' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+    <h1>Settings</h1>
+
+
+
+
+    <div class="container">
+        <datalist id="languages">
+            {% for lang in languages %}
+                <option value="{{ lang.name }}"></option>
+            {% endfor %}
+        </datalist>
+        <div class="row">
+            <div class="col">
+                <h3>Add Primary Language</h3>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input list="languages" name="add_prime_lang">
+                    <button type="submit" class="btn btn-success">Add</button>
+                </form>
+
+                Your Primary Languages:
+                {% for lang in user_prime_lang %}
+                    <li>
+                        {{ lang.name }}
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <button name="remove_prime_lang" value="{{ lang.name }}">remove</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </div>
+            <div class="col">
+                <h3>Add Learning Language</h3>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input list="languages" name="add_learn_lang">
+                    <button type="submit" class="btn btn-success">Add</button>
+                </form>
+
+                Your Primary Languages:
+                {% for lang in user_learn_lang %}
+                    <li>
+                        {{ lang.name }}
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <button name="remove_learn_lang" value="{{ lang.name }}">remove</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <a href="{% url 'logout' %}">
+        <button class="btn btn-danger">Logout</button>
+    </a>
+{% endblock %}

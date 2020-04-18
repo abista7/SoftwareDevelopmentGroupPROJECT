@@ -1,14 +1,16 @@
+import uuid
+
 import pycountry
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-import uuid
 
 
 # Create your models here.
 
 class Language(models.Model):
+
     name = models.CharField(max_length=100, null=True)
     alpha_3 = models.CharField(max_length=3, null=True)
 
@@ -25,7 +27,7 @@ class Profile(models.Model):
 
     country_list = []
     for c in list(pycountry.countries):
-        country_list.append((c.alpha_2.lower(),c.name))
+        country_list.append((c.alpha_2.lower(), c.name))
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
     primary_language = models.ManyToManyField(Language, related_name='primary_language')
@@ -38,12 +40,14 @@ class Profile(models.Model):
         return self.user.username
 
 
+# when a user object gets created (user register) a profile is added automatically
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
 
+# when user object gets saved the profile object gets saved
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()

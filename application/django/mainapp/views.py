@@ -1,8 +1,7 @@
-from django.contrib.auth import get_user_model
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 
 from .forms import RegisterForm
-from .models import Profile
+from .models import Profile, Language
 
 
 def index(request):
@@ -19,15 +18,12 @@ def index(request):
 def profile(request, profile_uuid):
     profile = Profile.objects.get(uuid=profile_uuid)
     user = profile.user
-    if request.user==user:
-        context = {'profile':user.profile}
-    else:
-        primary_lang = ''
-        for lang in profile.primary_language.all():
-            primary_lang += lang.name + ' '
-        learning_lang = ''
-        for lang in profile.learning_language.all():
-            learning_lang += lang.name + ' '
+    primary_lang = ''
+    for lang in profile.primary_language.all():
+        primary_lang += lang.name + ' '
+    learning_lang = ''
+    for lang in profile.learning_language.all():
+        learning_lang += lang.name + ' '
 
         context = {'profile': profile, 'learning_lang': learning_lang, 'primary_lang': primary_lang}
     return render(request, 'mainapp/profile.html', context=context)
@@ -43,3 +39,24 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'registration/register.html', {'form': form})
+
+
+def settings(request):
+    print(request.POST)
+    if request.method == 'POST':
+        if request.POST.get('add_prime_lang'):
+            request.user.profile.primary_language.add(Language.objects.get(name=request.POST.get('add_prime_lang')))
+        if request.POST.get('remove_prime_lang'):
+            request.user.profile.primary_language.remove(
+                Language.objects.get(name=request.POST.get('remove_prime_lang')))
+        if request.POST.get('add_learn_lang'):
+            request.user.profile.learning_language.add(Language.objects.get(name=request.POST.get('add_learn_lang')))
+        if request.POST.get('remove_learn_lang'):
+            request.user.profile.learning_language.remove(
+                Language.objects.get(name=request.POST.get('remove_learn_lang')))
+    user_prime_lang = request.user.profile.primary_language.all()
+    user_learn_lang = request.user.profile.learning_language.all()
+    languages = Language.objects.all()
+    context = {'profile': request.user.profile, 'languages': languages, 'user_prime_lang': user_prime_lang,
+               'user_learn_lang': user_learn_lang}
+    return render(request, 'mainapp/settings.html', context)

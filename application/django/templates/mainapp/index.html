@@ -1,0 +1,12 @@
+{% extends 'mainapp/base.html' %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+
+    {% for profile in profile_list %}
+        <ul>
+            <li><a href="profile/{{ profile.uuid }}">{{ profile.user.first_name }}</a></li>
+        </ul>
+    {% endfor %}
+
+{% endblock %}

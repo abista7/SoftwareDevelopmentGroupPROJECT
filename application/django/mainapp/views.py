@@ -1,7 +1,7 @@
-from django.http import HttpResponse
+from django.contrib.auth import get_user_model
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import RegisterForm
 
+from .forms import RegisterForm
 from .models import Profile
 
 
@@ -17,8 +17,20 @@ def index(request):
 
 
 def profile(request, profile_id):
-    profile = get_object_or_404(Profile, pk=profile_id)
-    return render(request, 'mainapp/profile.html', context={'profile': profile})
+    if profile_id:
+        user = get_object_or_404(get_user_model(), pk=profile_id)
+    else:
+        user = get_object_or_404(get_user_model(), pk=request.user.pk)
+    profile = user.profile
+    primary_lang = ''
+    for lang in profile.primary_language.all():
+        primary_lang += lang.name + ' '
+    learning_lang = ''
+    for lang in profile.learning_language.all():
+        learning_lang += lang.name + ' '
+
+    context = {'profile': profile, 'learning_lang': learning_lang, 'primary_lang': primary_lang}
+    return render(request, 'mainapp/profile.html', context=context)
 
 
 def register(request):

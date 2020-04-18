@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import uuid
 
 
 # Create your models here.
@@ -31,6 +32,7 @@ class Profile(models.Model):
     learning_language = models.ManyToManyField(Language, related_name='learning_language')
     gender = models.CharField(choices=GENDERS, max_length=10, default='N/A')
     location = models.CharField(choices=country_list, max_length=2, null=True)
+    uuid = models.UUIDField(default=uuid.uuid4)
 
     def __str__(self):
         return self.user.username

@@ -63,9 +63,10 @@ def settings(request):
     print(request.POST)
     # if form is submitted in setting page we update the profile object
     if request.method == 'POST':
-        request.user.first_name = request.POST.get('fname')
-        request.user.last_name = request.POST.get('lname')
-        request.user.profile.location = pycountry.countries.get(name=request.POST.get('location')).alpha_2.lower()
+        if request.POST.get('fname'):
+            request.user.first_name = request.POST.get('fname')
+            request.user.last_name = request.POST.get('lname')
+            request.user.profile.location = pycountry.countries.get(name=request.POST.get('location')).alpha_2.lower()
 
         # add a primary language
         if request.POST.get('add_prime_lang'):

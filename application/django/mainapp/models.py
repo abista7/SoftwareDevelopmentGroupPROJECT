@@ -52,6 +52,9 @@ class Profile(models.Model):
 
         return profile_list
 
+    def get_location_full_name(self):
+        return pycountry.countries.get(alpha_2=self.location.upper()).name
+
 
 class Friend(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)

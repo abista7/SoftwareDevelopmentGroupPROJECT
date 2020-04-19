@@ -1,13 +1,31 @@
 {% extends 'mainapp/base.html' %}
 
 {% block title %}Settings{% endblock %}
-
 {% block content %}
+
     <h1>Settings</h1>
 
 
 
+    <datalist id="countries">
+        {% for c in country_list %}
+            <option value="{{ c.name }}"></option>
+        {% endfor %}
+    </datalist>
 
+    <form action="" method="post" class="text-center">
+        {% csrf_token %}
+        <label for="fname">First Name:</label>
+        <input type="text" id="fname" name="fname" value="{{ user.first_name }}">
+        <label for="lname">Last Name:</label>
+        <input type="text" id="lname" name="lname" value="{{ user.last_name }}">
+        <br />
+        Location:
+        <input list="countries" name="location" value="{{ user.profile.get_location_full_name }}">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+
+    <br/>
     <div class="container">
         <datalist id="languages">
             {% for lang in languages %}

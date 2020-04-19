@@ -34,7 +34,7 @@ class Profile(models.Model):
     gender = models.CharField(choices=GENDERS, max_length=10, default='N/A')
     location = models.CharField(choices=country_list, max_length=2, null=True)
     uuid = models.UUIDField(default=uuid.uuid4)
-    about_me = models.TextField(null=True)
+    about_me = models.TextField(default='nothing here', null=True)
 
     def __str__(self):
         return self.user.username
@@ -58,6 +58,20 @@ class Profile(models.Model):
             return pycountry.countries.get(alpha_2=self.location.upper()).name
         else:
             return ''
+
+    def get_common_language(self, other):
+        my_lang_list = []
+        for lang in self.primary_language.all():
+            my_lang_list.append(lang)
+        for lang in self.learning_language.all():
+            my_lang_list.append(lang)
+        other_lang_list = []
+        for lang in other.primary_language.all():
+            other_lang_list.append(lang)
+        for lang in other.learning_language.all():
+            other_lang_list.append(lang)
+        print('function ran')
+        return set(my_lang_list) & set(other_lang_list)
 
 
 class Friend(models.Model):

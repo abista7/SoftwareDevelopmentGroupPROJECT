@@ -42,7 +42,7 @@
     <form action="" method="post" class="text-center">
         {% csrf_token %}
         <h3>About Me</h3>
-        <textarea id="about_me" name="about_me">{{ user.profile.about_me }}</textarea>
+        <textarea id="about_me" name="about_me" class="form-group" cols="50" rows="4">{{ user.profile.about_me }}</textarea>
         <br/>
     <button class="btn btn-primary">Save</button>
     </form>

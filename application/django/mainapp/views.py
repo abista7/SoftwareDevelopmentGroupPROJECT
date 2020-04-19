@@ -66,23 +66,32 @@ def settings(request):
         if request.POST.get('fname'):
             request.user.first_name = request.POST.get('fname')
             request.user.last_name = request.POST.get('lname')
-            request.user.profile.location = pycountry.countries.get(name=request.POST.get('location')).alpha_2.lower()
+
+            if pycountry.countries.get(name=request.POST.get('location')):  # verify if country name exists
+                request.user.profile.location = pycountry.countries.get(
+                    name=request.POST.get('location')).alpha_2.lower()  # store 2 letter code in db
 
         # add a primary language
         if request.POST.get('add_prime_lang'):
-            request.user.profile.primary_language.add(Language.objects.get(name=request.POST.get('add_prime_lang')))
+            if len(Language.objects.filter(
+                    name=request.POST.get('add_prime_lang'))) == 1:  # check if language exist in database
+                request.user.profile.primary_language.add(Language.objects.get(name=request.POST.get('add_prime_lang')))
         # removing a primary language
         if request.POST.get('remove_prime_lang'):
             request.user.profile.primary_language.remove(
                 Language.objects.get(name=request.POST.get('remove_prime_lang')))
         # add a learning language
         if request.POST.get('add_learn_lang'):
-            request.user.profile.learning_language.add(Language.objects.get(name=request.POST.get('add_learn_lang')))
+            if len(Language.objects.filter(
+                    name=request.POST.get('add_learn_lang'))) == 1:  # check if language exist in database
+                request.user.profile.learning_language.add(
+                    Language.objects.get(name=request.POST.get('add_learn_lang')))
         # removing a learning language
         if request.POST.get('remove_learn_lang'):
             request.user.profile.learning_language.remove(
                 Language.objects.get(name=request.POST.get('remove_learn_lang')))
-        request.user.save()
+
+        request.user.save()  # save user/profile object
 
     user_prime_lang = request.user.profile.primary_language.all()
     user_learn_lang = request.user.profile.learning_language.all()

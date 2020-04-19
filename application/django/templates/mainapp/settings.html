@@ -19,7 +19,7 @@
         <input type="text" id="fname" name="fname" value="{{ user.first_name }}">
         <label for="lname">Last Name:</label>
         <input type="text" id="lname" name="lname" value="{{ user.last_name }}">
-        <br />
+        <br/>
         Location:
         <input list="countries" name="location" value="{{ user.profile.get_location_full_name }}">
         <button type="submit" class="btn btn-primary">Update</button>
@@ -42,15 +42,23 @@
                 </form>
 
                 Your Primary Languages:
-                {% for lang in user_prime_lang %}
-                    <li>
-                        {{ lang.name }}
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            <button name="remove_prime_lang" value="{{ lang.name }}">remove</button>
-                        </form>
-                    </li>
-                {% endfor %}
+                {% if user_prime_lang.count <= 1 %}
+                    {% for lang in user_prime_lang %}
+                        <li>
+                            {{ lang.name }}
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    {% for lang in user_prime_lang %}
+                        <li>
+                            {{ lang.name }}
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <button name="remove_prime_lang" value="{{ lang.name }}">remove</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                {% endif %}
             </div>
             <div class="col">
                 <h3>Add Learning Language</h3>
@@ -60,16 +68,24 @@
                     <button type="submit" class="btn btn-success">Add</button>
                 </form>
 
-                Your Primary Languages:
-                {% for lang in user_learn_lang %}
-                    <li>
-                        {{ lang.name }}
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            <button name="remove_learn_lang" value="{{ lang.name }}">remove</button>
-                        </form>
-                    </li>
-                {% endfor %}
+                Your Learning Languages:
+                {% if user_learn_lang.count <= 1 %}
+                    {% for lang in user_learn_lang %}
+                        <li>
+                            {{ lang.name }}
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    {% for lang in user_learn_lang %}
+                        <li>
+                            {{ lang.name }}
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <button name="remove_learn_lang" value="{{ lang.name }}">remove</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

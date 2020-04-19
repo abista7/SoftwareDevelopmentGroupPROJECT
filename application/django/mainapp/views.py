@@ -66,6 +66,7 @@ def settings(request):
         if request.POST.get('fname'):
             request.user.first_name = request.POST.get('fname')
             request.user.last_name = request.POST.get('lname')
+            request.user.email = request.POST.get('email')
 
             if pycountry.countries.get(name=request.POST.get('location')):  # verify if country name exists
                 request.user.profile.location = pycountry.countries.get(

@@ -1,6 +1,6 @@
 import pycountry
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
@@ -21,14 +21,7 @@ def index(request):
 @login_required
 def profile(request, profile_uuid):
     profile = Profile.objects.get(uuid=profile_uuid)
-    primary_lang = ''
-    for lang in profile.primary_language.all():
-        primary_lang += lang.name + ' '
-    learning_lang = ''
-    for lang in profile.learning_language.all():
-        learning_lang += lang.name + ' '
-
-    context = {'profile': profile, 'learning_lang': learning_lang, 'primary_lang': primary_lang}
+    context = {'profile': profile}
     return render(request, 'mainapp/profile.html', context=context)
 
 

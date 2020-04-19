@@ -8,10 +8,12 @@
     <h1><span
             class="flag-icon flag-icon-{{ profile.location }}"></span> {{ profile.user.first_name }} {{ profile.user.last_name }}
     </h1>
-    <p>knows {{ primary_lang }}</p>
-    <p>wants to learn {{ learning_lang }}</p>
+    <p>knows {% for lang in profile.primary_language.all %}{{ lang }} {% endfor %}</p>
+    <p>wants to learn {% for lang in profile.learning_language.all %}{{ lang }} {% endfor %}</p>
     {% if user == profile.user %}
-        <a href="{% url 'settings' %}"><button class="btn btn-primary">Edit Your Profile</button></a>
+        <a href="{% url 'settings' %}">
+            <button class="btn btn-primary">Edit Your Profile</button>
+        </a>
     {% endif %}
 
 {% endblock %}

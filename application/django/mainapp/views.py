@@ -6,21 +6,21 @@ from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 
 from .forms import RegisterForm
-from .models import Profile, Language, Friend
+from .models import Profile, Language, Friend, get_profile_model
 
 
 def index(request):
     if request.user.is_authenticated:
         if not request.user.profile.location or not request.user.profile.primary_language or not request.user.profile.learning_language:
             messages.warning(request, mark_safe("<a href='settings/'>Please complete your profile</a>"))
-    profile_list = Profile.objects.all()
+    profile_list = get_profile_model()
     context = {'profile_list': profile_list}
     return render(request, 'mainapp/index.html', context)
 
 
 @login_required
 def profile(request, profile_uuid):
-    profile = Profile.objects.get(uuid=profile_uuid)
+    profile = get_profile_model().get(uuid=profile_uuid)
     context = {'profile': profile}
     return render(request, 'mainapp/profile.html', context=context)
 
@@ -44,8 +44,8 @@ def friends(request):
         uuid = request.POST.get('unfriend')
         if request.POST.get('unfriend'):
             friend_obj = Friend.objects.get(
-                Q(profile_1=request.user.profile, profile_2=Profile.objects.get(uuid=uuid)) | Q(
-                    profile_2=request.user.profile, profile_1=Profile.objects.get(uuid=uuid)))
+                Q(profile_1=request.user.profile, profile_2=get_profile_model().get(uuid=uuid)) | Q(
+                    profile_2=request.user.profile, profile_1=get_profile_model().get(uuid=uuid)))
             friend_obj.delete()
 
     friend_list = Profile.friend_list(request.user.profile)
@@ -67,6 +67,10 @@ def settings(request):
             if pycountry.countries.get(name=request.POST.get('location')):  # verify if country name exists
                 request.user.profile.location = pycountry.countries.get(
                     name=request.POST.get('location')).alpha_2.lower()  # store 2 letter code in db
+
+        # about me
+        if request.POST.get('about_me'):
+            request.user.profile.about_me = request.POST.get('about_me')
 
         # add a primary language
         if request.POST.get('add_prime_lang'):

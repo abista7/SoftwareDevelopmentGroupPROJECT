@@ -34,6 +34,7 @@ class Profile(models.Model):
     gender = models.CharField(choices=GENDERS, max_length=10, default='N/A')
     location = models.CharField(choices=country_list, max_length=2, null=True)
     uuid = models.UUIDField(default=uuid.uuid4)
+    about_me = models.TextField(null=True)
 
     def __str__(self):
         return self.user.username
@@ -78,3 +79,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
+def get_profile_model():
+    return Profile.objects.filter(user__is_active=True)

@@ -5,8 +5,13 @@
 
 {% block content %}
 
-    <h1><span class="flag-icon flag-icon-{{ profile.location }}"></span> {{ profile.user.first_name }} {{ profile.user.last_name }} </h1>
+    <h1><span
+            class="flag-icon flag-icon-{{ profile.location }}"></span> {{ profile.user.first_name }} {{ profile.user.last_name }}
+    </h1>
     <p>knows {{ primary_lang }}</p>
     <p>wants to learn {{ learning_lang }}</p>
+    {% if user == profile.user %}
+        <a href="{% url 'settings' %}"><button class="btn btn-primary">Edit Your Profile</button></a>
+    {% endif %}
 
 {% endblock %}

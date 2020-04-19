@@ -53,7 +53,10 @@ class Profile(models.Model):
         return profile_list
 
     def get_location_full_name(self):
-        return pycountry.countries.get(alpha_2=self.location.upper()).name
+        if self.location:
+            return pycountry.countries.get(alpha_2=self.location.upper()).name
+        else:
+            return ''
 
 
 class Friend(models.Model):

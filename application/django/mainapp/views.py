@@ -1,25 +1,26 @@
 import pycountry
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render, redirect
+from django.utils.safestring import mark_safe
 
 from .forms import RegisterForm
 from .models import Profile, Language, Friend
 
 
 def index(request):
-    if request.GET.get('name'):
-        profile_list = Profile.objects.filter(name__icontains=request.GET.get('name'))
-    elif request.GET.get('gender'):
-        profile_list = Profile.objects.filter(gender=request.GET.get('gender'))
-    else:
-        profile_list = Profile.objects.all()
+    if request.user.is_authenticated:
+        if not request.user.profile.location or not request.user.profile.primary_language or not request.user.profile.learning_language:
+            messages.warning(request, mark_safe("<a href='settings/'>Please complete your profile</a>"))
+    profile_list = Profile.objects.all()
     context = {'profile_list': profile_list}
     return render(request, 'mainapp/index.html', context)
 
 
+@login_required
 def profile(request, profile_uuid):
     profile = Profile.objects.get(uuid=profile_uuid)
-    user = profile.user
     primary_lang = ''
     for lang in profile.primary_language.all():
         primary_lang += lang.name + ' '
@@ -27,7 +28,7 @@ def profile(request, profile_uuid):
     for lang in profile.learning_language.all():
         learning_lang += lang.name + ' '
 
-        context = {'profile': profile, 'learning_lang': learning_lang, 'primary_lang': primary_lang}
+    context = {'profile': profile, 'learning_lang': learning_lang, 'primary_lang': primary_lang}
     return render(request, 'mainapp/profile.html', context=context)
 
 
@@ -43,6 +44,7 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 
+@login_required
 def friends(request):
     print(request.POST)
     if request.method == 'POST':
@@ -58,6 +60,7 @@ def friends(request):
     return render(request, 'mainapp/friends.html', context)
 
 
+@login_required
 def settings(request):
     # debug
     print(request.POST)

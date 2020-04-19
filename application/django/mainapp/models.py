@@ -10,7 +10,6 @@ from django.dispatch import receiver
 # Create your models here.
 
 class Language(models.Model):
-
     name = models.CharField(max_length=100, null=True)
     alpha_3 = models.CharField(max_length=3, null=True)
 
@@ -38,6 +37,28 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def friend_list(self):
+        profile_list = []
+        query_1 = Friend.objects.filter(profile_1=self)
+        for item in query_1:
+            if item.is_friend:
+                profile_list.append(item.profile_2)
+
+        query_2 = Friend.objects.filter(profile_2=self)
+        for item in query_2:
+            if item.is_friend:
+                profile_list.append(item.profile_1)
+
+        return profile_list
+
+
+class Friend(models.Model):
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    profile_1 = models.ForeignKey(Profile, related_name="friend_creator", on_delete=models.CASCADE)
+    profile_2 = models.ForeignKey(Profile, related_name="friend", on_delete=models.CASCADE)
+    is_friend = models.BooleanField(default=False)
+    friend_time = models.DateTimeField(auto_now=True)
 
 
 # when a user object gets created (user register) a profile is added automatically

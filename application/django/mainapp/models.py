@@ -88,6 +88,9 @@ class Profile(models.Model):
     def outgoing_friend_request(self):
         return Friend.objects.filter(profile_1=self, is_friend=False)
 
+    def create_post(self, desc):
+        Post.objects.create(profile=self, description=desc)
+
 
 class Friend(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -125,3 +128,5 @@ class Post(models.Model):
     description = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+

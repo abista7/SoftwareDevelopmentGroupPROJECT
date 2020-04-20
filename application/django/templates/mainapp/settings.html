@@ -116,10 +116,13 @@
     <a href="{% url 'logout' %}">
         <button class="btn btn-danger">Logout</button>
     </a>
-
+     <a href="{% url 'index' %}">
+    <button class="btn btn-info">Home</button>
+    </a>
     <a href="{% url 'password_change' %}">
     <button class="btn btn-info">Change Password</button>
     </a>
 
     <button class="btn btn-danger">Delete Account</button>
+
 {% endblock %}

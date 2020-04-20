@@ -18,13 +18,10 @@
         </a>
     {% endif %}
 
-
-
-{% endblock %}
-
     {% if post_list %}
         <ul>
-            <p>Posts</p>
+            <br>
+            <h3>Posts</h3>
             {% for post in post_list %}
                 <li>{{ post.description }}</li>
             {% endfor %}
@@ -33,6 +30,20 @@
     {% else %}
         <h1>NO POSTS</h1>
     {% endif %}
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <textarea class="form-control " cols="50" rows="4" id="create_post" name="create_post" ></textarea>
+        <button type="submit" value="{{ create_post }}">Create Post</button>
+    </form>
+    <h>{{ desc }}</h>
 
-<a> href="/homepage/"><button>Homepage</button></a>
+    <br>
+    <br>
+    <br>
+    <a href="{% url 'index' %}">
+    <button class="btn btn-info">Home</button>
+    </a>
+{% endblock %}
+
 

@@ -56,7 +56,15 @@ def index(request):
 def profile(request, profile_uuid):
     profile = get_profile_model().get(uuid=profile_uuid)
     post_list = Post.objects.filter(profile=profile)
-    context = {'profile': profile, 'post_list': post_list}
+    create_post = None
+    context = {'profile': profile, 'post_list': post_list, 'create_post':create_post}
+
+    if request.method == 'POST':
+        print(request.POST)
+        if request.POST.get('create_post'):
+            request.user.profile.create_post(request.POST.get('create_post'))
+
+
     return render(request, 'mainapp/profile.html', context=context)
 
 

@@ -15,6 +15,9 @@
         <a href="{% url 'friends' %}">
             <button class="btn btn-info">Friends</button>
         </a>
+        <a href="{% url 'logout' %}">
+            <button class="btn btn-info">Logout</button>
+        </a>
     {% else %}
         <a href="{% url 'register' %}">
             <button class="btn btn-primary">Register</button>

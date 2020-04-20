@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import RegisterForm
 
 from .models import Profile
-
+from .models import Post
 
 def index(request):
     if request.GET.get('name'):
@@ -18,7 +18,8 @@ def index(request):
 
 def profile(request, profile_id):
     profile = get_object_or_404(Profile, pk=profile_id)
-    return render(request, 'mainapp/profile.html', context={'profile': profile})
+    post_list = Post.objects.filter(profile=profile)
+    return render(request, 'mainapp/profile.html', context={'profile': profile, 'post_list': post_list})
 
 
 def register(request):
@@ -31,4 +32,10 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'registration/register.html', {'form': form})
+
+
+def homepage(request):
+    username = request.user.get_username()
+    userProfile = Profile.objects.get(user=request.user)
+    return render(request, 'mainapp/homepage.html', context={'username': username, 'profile': userProfile})
 

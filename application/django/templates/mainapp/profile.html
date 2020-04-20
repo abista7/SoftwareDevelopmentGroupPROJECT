@@ -12,5 +12,18 @@
     <p>knows {{ profile.primary_language }} and wants to learn {{ profile.learning_language}}</p>
     <p><a href="mailto:{{ profile.email }}">Email Me!</a></p>
 
+    {% if post_list %}
+        <ul>
+            {% for post in post_list %}
+                <li>{{ post.description }}</li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <h1>NO POSTS</h1>
+    {% endif %}
+
+    <a href="/homepage/"><button>Homepage</button></a>
+
     </body>
 </html5>

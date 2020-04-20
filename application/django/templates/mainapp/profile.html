@@ -23,27 +23,41 @@
             <br>
             <h3>Posts</h3>
             {% for post in post_list %}
-                <li>{{ post.description }}</li>
+                <li>
+                    <textarea class="form-control"  readonly>{{ post.description }}</textarea>
+                    {% if user == profile.user %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="delete_post" value={{ post.id }}>Delete Post</button>
+                        </form>
+                    {% endif %}
+                </li>
             {% endfor %}
         </ul>
-
     {% else %}
-        <h1>NO POSTS</h1>
+        <ul>
+            <br>
+            <h3>Posts</h3>
+        </ul>
     {% endif %}
     <br>
-    <form method="post">
-        {% csrf_token %}
-        <textarea class="form-control " cols="50" rows="4" id="create_post" name="create_post" ></textarea>
-        <button type="submit" value="{{ create_post }}">Create Post</button>
-    </form>
-    <h>{{ desc }}</h>
-
-    <br>
+    {% if user == profile.user %}
+        <form method="post">
+            {% csrf_token %}
+            <textarea class="form-control " cols="50" rows="4" id="create_post" name="create_post" ></textarea>
+            <button type="submit" value="{{ create_post }}">Create Post</button>
+        </form>
+    {% endif %}
     <br>
     <br>
     <a href="{% url 'index' %}">
     <button class="btn btn-info">Home</button>
     </a>
+    <br>
+    <br>
+    <br>
+
+
 {% endblock %}
 
 

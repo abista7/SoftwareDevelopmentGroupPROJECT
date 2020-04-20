@@ -91,6 +91,10 @@ class Profile(models.Model):
     def create_post(self, desc):
         Post.objects.create(profile=self, description=desc)
 
+    def delete_post(self, post_id):
+        post = Post.objects.get(id=post_id)
+        post.delete()
+
 
 class Friend(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -129,4 +133,5 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
-
+    def __str__(self):
+        return 'Post: ' + self.description

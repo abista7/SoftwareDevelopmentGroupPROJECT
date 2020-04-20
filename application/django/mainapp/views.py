@@ -63,6 +63,8 @@ def profile(request, profile_uuid):
         print(request.POST)
         if request.POST.get('create_post'):
             request.user.profile.create_post(request.POST.get('create_post'))
+        if request.POST.get('delete_post'):
+            request.user.profile.delete_post(int(request.POST.get('delete_post')))
 
 
     return render(request, 'mainapp/profile.html', context=context)

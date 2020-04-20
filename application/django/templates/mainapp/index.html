@@ -23,15 +23,67 @@
         </a>
     {% endif %}
 
-    <h1>List of Users</h1>
-    <br/>
-    {% for profile in profile_list %}
-        <ul>
-            <li>
-                <a href="profile/{{ profile.uuid }}">{{ profile.user.first_name }}</a>, you can communicate in:
-            </li>
-        </ul>
-    {% endfor %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>List of Users</h1>
+                <br/>
+                {% for profile in profile_list %}
+                    <ul>
+                        <li>
+                            <a href="profile/{{ profile.uuid }}"><strong>{{ profile.user.first_name }}</strong></a>,
+                            knows: <i>{% for lang in profile.primary_language.all %}{{ lang }} {% endfor %}</i>
+                            learning: <i>{% for lang in profile.learning_language.all %}{{ lang }} {% endfor %}</i>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary" name="add_friend"
+                                        value="{{ profile.uuid }}">Add Friend
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                {% endfor %}
+
+
+            </div>
+            <div class="col">
+                <h1>Incoming Friend Requests</h1>
+                <ul>
+                    {% for p in user.profile.incoming_friend_request.all %}
+                        <li><strong><a
+                                href="{% url 'profile' p.profile_1.uuid %}">{{ p.profile_1.user.first_name }}</a></strong>
+                        </li>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-success" type="submit" name="accept_friend_request"
+                                    value="{{ p.profile_1.uuid }}">Accept
+                            </button>
+                            <button class="btn btn-danger" type="submit" name="decline_friend_request"
+                                    value="{{ p.profile_1.uuid }}">Decline
+                            </button>
+                        </form>
+                    {% endfor %}
+                </ul>
+
+                <h1>Outgoing Friend Requests</h1>
+                <ul>
+                    {% for p in user.profile.outgoing_friend_request.all %}
+                        <li>
+                            <strong><a href="{% url 'profile' p.profile_2.uuid %}">{{ p.profile_2.user.first_name }}</a></strong>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-danger" type="submit" name="cancel_friend_request"
+                                        value="{{ p.profile_2.uuid }}">Cancel
+                                </button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 
 
 

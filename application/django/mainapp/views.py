@@ -6,16 +6,44 @@ from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 
 from .forms import RegisterForm
-from .models import Profile, Language, Friend, get_profile_model
+from .models import Profile, Language, Friend, get_profile_model, friend_relation
 
 
 def index(request):
     if request.user.is_authenticated:
+        # display message if user has incomplete section in settings
         if not request.user.profile.location or not request.user.profile.primary_language or not request.user.profile.learning_language:
             messages.warning(request, mark_safe("<a href='settings/'>Please complete your profile</a>"))
-    profile_list = get_profile_model()
-    context = {'profile_list': profile_list}
-    return render(request, 'mainapp/index.html', context)
+
+        if request.method == 'POST':
+            print(request.POST)
+            if request.POST.get('add_friend'):
+                request.user.profile.add_friend(request.POST.get('add_friend'))
+            if request.POST.get('accept_friend_request'):
+                request.user.profile.accept_friend_request(request.POST.get('accept_friend_request'))
+            if request.POST.get('cancel_friend_request'):
+                request.user.profile.cancel_friend_request(request.POST.get('cancel_friend_request'))
+            if request.POST.get('decline_friend_request'):
+                request.user.profile.decline_friend_request(request.POST.get('decline_friend_request'))
+
+        # matching:
+        profile = request.user.profile
+        query_set = set([])
+        for prime_lang in profile.primary_language.all():
+            query = get_profile_model().filter(learning_language__name=prime_lang.name)
+            for item in query:
+                if not friend_relation(profile, item):
+                    query_set.add(item)
+        for learn_lang in profile.learning_language.all():
+            query = get_profile_model().filter(primary_language__name=learn_lang.name)
+            for item in query:
+                if not friend_relation(profile, item):
+                    query_set.add(item)
+
+        context = {'profile_list': query_set}
+        return render(request, 'mainapp/index.html', context)
+    else:
+        return render(request, 'mainapp/home.html')
 
 
 @login_required

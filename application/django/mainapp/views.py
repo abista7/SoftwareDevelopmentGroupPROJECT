@@ -2,11 +2,12 @@ import pycountry
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 
 from .forms import RegisterForm
-from .models import Profile, Language, Friend, get_profile_model, friend_relation
+from .models import Language, Friend, get_profile_model, friend_relation
 
 
 def index(request):
@@ -59,7 +60,8 @@ def index(request):
                 if not friend_relation(profile, item):
                     query_set.add(item)
 
-        query_set.remove(profile)  # remove their own profile so they can't friend themselves
+        if query_set.__contains__(profile):
+            query_set.remove(profile)  # remove their own profile so they can't friend themselves
         context = {'profile_list': query_set}
         return render(request, 'mainapp/index.html', context)
 
@@ -103,7 +105,7 @@ def friends(request):
             friend_obj.delete()
 
     # else render their friend list
-    friend_list = Profile.friend_list(request.user.profile)
+    friend_list = request.user.profile.friend_list()
     context = {'friend_list': friend_list}
     return render(request, 'mainapp/friends.html', context)
 
@@ -177,3 +179,19 @@ def settings(request):
     context = {'profile': request.user.profile, 'languages': languages, 'user_prime_lang': user_prime_lang,
                'user_learn_lang': user_learn_lang, 'country_list': country_list}
     return render(request, 'mainapp/settings.html', context)
+
+
+def setup(request):
+    lang_list_alpha_3 = ['spa', 'fra', 'deu', 'eng', 'jpn', 'ita', 'zho', 'ara', 'rus', 'kor', 'por', 'heb', 'hin',
+                         'nep', 'fas', 'tgl', 'hin', 'afr', 'nld', 'ben', 'tur', 'swa', 'urd']
+
+    lang_list_alpha_3.sort()
+    lang_names = []
+    for lang in lang_list_alpha_3:
+        lang_names.append(pycountry.languages.get(alpha_3=lang).name)
+        obj, created = Language.objects.get_or_create(alpha_3=lang, name=pycountry.languages.get(alpha_3=lang).name)
+        if created:
+            print(str(obj) + ' was added to database')
+
+    print('language database addition script finished successfully')
+    return HttpResponse('Script Ran')

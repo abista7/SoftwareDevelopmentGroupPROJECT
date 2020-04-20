@@ -13,7 +13,7 @@ venv_win/
 venv/
 
 #static
-static/
+/static
 
 ### Django ###
 *.log

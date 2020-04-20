@@ -1,17 +1,24 @@
-<html5>
+{% extends 'mainapp/base.html' %}
 
-    <head>
-        <title>{{ profile.name }}'s Profile Page</title>
-    </head>
+{% block title %}Profile{% endblock %}
 
 
-    <img src="{{ profile.profile_picture }}" width="100"/>
+{% block content %}
 
-    <h1>{{ profile.name }}</h1>
-    <h3>from {{ profile.location }}</h3>
-    <p>knows {{ profile.primary_language }} and wants to learn {{ profile.learning_language}}</p>
-    <p><a href="mailto:{{ profile.email }}">Email Me!</a></p>
+    <h1><span
+            class="flag-icon flag-icon-{{ profile.location }}"></span> {{ profile.user.first_name }} {{ profile.user.last_name }}
+    </h1>
+    <p>knows {% for lang in profile.primary_language.all %}<b>{{ lang }}</b> {% endfor %}</p>
+    <p>wants to learn {% for lang in profile.learning_language.all %}<b>{{ lang }}</b> {% endfor %}</p>
+    About Me:
+    <textarea class="form-control" cols="50" rows="4" readonly>{{ profile.about_me }}</textarea>
+    {% if user == profile.user %}
+        <a href="{% url 'settings' %}">
+            <button class="btn btn-primary">Edit Your Profile</button>
+        </a>
+    {% endif %}
 
+<<<<<<< HEAD
     {% if post_list %}
         <ul>
             <p>Posts</p>
@@ -28,3 +35,6 @@
 
     </body>
 </html5>
+=======
+{% endblock %}
+>>>>>>> origin/dev-ryan

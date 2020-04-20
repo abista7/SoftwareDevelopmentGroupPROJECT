@@ -1,0 +1,125 @@
+{% extends 'mainapp/base.html' %}
+
+{% block title %}Settings{% endblock %}
+{% block content %}
+
+    <h1>Settings</h1>
+
+    {# this section is to load up countries and languages list for user selection #}
+    <datalist id="countries">
+        {% for c in country_list %}
+            <option value="{{ c.name }}"></option>
+        {% endfor %}
+    </datalist>
+
+    <datalist id="languages">
+        {% for lang in languages %}
+            <option value="{{ lang.name }}"></option>
+        {% endfor %}
+    </datalist>
+
+    {# this is user info section | first/last name, location and email updates here #}
+    <form action="" method="post" class="text-center">
+        {% csrf_token %}
+        <h3>Personal Info</h3>
+        <label for="fname">First Name:</label>
+        <input type="text" id="fname" name="fname" value="{{ user.first_name }}">
+        <label for="lname">Last Name:</label>
+        <input type="text" id="lname" name="lname" value="{{ user.last_name }}">
+        <br/>
+        Location:
+        <input list="countries" name="location" value="{{ user.profile.get_location_full_name }}">
+        <br/>
+        Email:
+        <input type="email" name="email" value="{{ user.email }}"> <br/>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+
+    <br/>
+    <br/>
+
+    {# about me section #}
+    <form action="" method="post" class="text-center">
+        {% csrf_token %}
+        <h3>About Me</h3>
+        <textarea id="about_me" name="about_me" class="form-group" cols="50" rows="4">{{ user.profile.about_me }}</textarea>
+        <br/>
+    <button class="btn btn-primary">Save</button>
+    </form>
+
+    <br/>
+    <br/>
+
+    {# the half page div for user to see add/remove their prim/learning languages #}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3>Add Primary Language</h3>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input list="languages" name="add_prime_lang">
+                    <button type="submit" class="btn btn-success">Add</button>
+                </form>
+
+                Your Primary Languages:
+                {% if user_prime_lang.count <= 1 %}
+                    {% for lang in user_prime_lang %}
+                        <li>
+                            {{ lang.name }}
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    {% for lang in user_prime_lang %}
+                        <li>
+                            {{ lang.name }}
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <button name="remove_prime_lang" value="{{ lang.name }}">remove</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="col">
+                <h3>Add Learning Language</h3>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input list="languages" name="add_learn_lang">
+                    <button type="submit" class="btn btn-success">Add</button>
+                </form>
+
+                Your Learning Languages:
+                {% if user_learn_lang.count <= 1 %}
+                    {% for lang in user_learn_lang %}
+                        <li>
+                            {{ lang.name }}
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    {% for lang in user_learn_lang %}
+                        <li>
+                            {{ lang.name }}
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <button name="remove_learn_lang" value="{{ lang.name }}">remove</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <br/>
+    <br/>
+
+    <a href="{% url 'logout' %}">
+        <button class="btn btn-danger">Logout</button>
+    </a>
+
+    <a href="{% url 'password_change' %}">
+    <button class="btn btn-info">Change Password</button>
+    </a>
+
+    <button class="btn btn-danger">Delete Account</button>
+{% endblock %}

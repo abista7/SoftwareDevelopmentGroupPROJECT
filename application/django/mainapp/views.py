@@ -5,14 +5,10 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 
-<<<<<<< HEAD
-from .models import Profile
-from .models import Post
-=======
 from .forms import RegisterForm
-from .models import Profile, Language, Friend, get_profile_model, friend_relation
+from .models import Profile, Language, Friend, get_profile_model, friend_relation, Post
+from django.http import HttpResponse
 
->>>>>>> origin/dev-ryan
 
 def index(request):
     if request.user.is_authenticated:
@@ -51,18 +47,17 @@ def index(request):
         return render(request, 'mainapp/home.html')
 
 
-<<<<<<< HEAD
-def profile(request, profile_id):
-    profile = get_object_or_404(Profile, pk=profile_id)
-    post_list = Post.objects.filter(profile=profile)
-    return render(request, 'mainapp/profile.html', context={'profile': profile, 'post_list': post_list})
-=======
+# def profile(request, profile_id):
+#     profile = get_object_or_404(Profile, pk=profile_id)
+#     post_list = Post.objects.filter(profile=profile)
+#     return render(request, 'mainapp/profile.html', context={'profile': profile, 'post_list': post_list})
+
 @login_required
 def profile(request, profile_uuid):
     profile = get_profile_model().get(uuid=profile_uuid)
-    context = {'profile': profile}
+    post_list = Post.objects.filter(profile=profile)
+    context = {'profile': profile, 'post_list': post_list}
     return render(request, 'mainapp/profile.html', context=context)
->>>>>>> origin/dev-ryan
 
 
 def register(request):
@@ -77,13 +72,13 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 
-<<<<<<< HEAD
+
 def homepage(request):
     username = request.user.get_username()
     userProfile = Profile.objects.get(user=request.user)
     return render(request, 'mainapp/homepage.html', context={'username': username, 'profile': userProfile})
 
-=======
+
 @login_required
 def friends(request):
     print(request.POST)
@@ -148,4 +143,21 @@ def settings(request):
     context = {'profile': request.user.profile, 'languages': languages, 'user_prime_lang': user_prime_lang,
                'user_learn_lang': user_learn_lang, 'country_list': country_list}
     return render(request, 'mainapp/settings.html', context)
->>>>>>> origin/dev-ryan
+
+
+def setup(request):
+    lang_list_alpha_3 = ['spa', 'fra', 'deu', 'eng', 'jpn', 'ita', 'zho', 'ara', 'rus', 'kor', 'por', 'heb', 'hin',
+                         'nep', 'fas', 'tgl', 'hin', 'afr', 'nld', 'ben', 'tur', 'swa', 'urd']
+
+    lang_list_alpha_3.sort()
+    lang_names = []
+    for lang in lang_list_alpha_3:
+        lang_names.append(pycountry.languages.get(alpha_3=lang).name)
+        obj, created = Language.objects.get_or_create(alpha_3=lang, name=pycountry.languages.get(alpha_3=lang).name)
+        if created:
+            str(obj) + ' was added to database'
+
+    print('language database addition script finished successfully')
+
+    return HttpResponse('Script Ran')
+

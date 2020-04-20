@@ -1,28 +1,13 @@
 import uuid
-
 import pycountry
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-<<<<<<< HEAD
-import uuid
-import pycountry
 
 from django.conf import settings
-
-# Create your models here.
-
-class Profile(models.Model):
-
-    LANGUAGE_CHOICES = [
-        ('English', 'English'),
-        ('Spanish', 'Spanish'),
-        ('German', 'German'),
-        ('French', 'French')
-    ]
-=======
 
 
 # Create your models here.
@@ -30,7 +15,6 @@ class Profile(models.Model):
 class Language(models.Model):
     name = models.CharField(max_length=100, null=True)
     alpha_3 = models.CharField(max_length=3, null=True)
->>>>>>> origin/dev-ryan
 
     def __str__(self):
         return self.name
@@ -42,34 +26,11 @@ class Profile(models.Model):
         ('F', 'Female'),
         ('O', 'Other'),
     )
-
-<<<<<<< HEAD
-    name = models.CharField(max_length=100, default=None)
-    primary_language = models.CharField(
-        max_length=100,
-        choices=LANGUAGE_CHOICES,
-        default='English'
-    )
-    learning_language = models.CharField(
-        max_length=100,
-        choices=LANGUAGE_CHOICES,
-        default='English'
-    )
-    gender = models.CharField(choices=GENDERS, max_length=10, default='N/A')
-    location = models.CharField(max_length=100, default='Earth')
-    email = models.EmailField(default=None)
-    profile_picture = models.URLField(default='https://i.imgur.com/OYQulGk.png')
-    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
-
-
-class Post(models.Model):
-    description = models.CharField(max_length=200)
-    created_at= models.DateTimeField(auto_now_add=True)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-
-
-
-=======
+    # gender = models.CharField(choices=GENDERS, max_length=10, default='N/A')
+    # location = models.CharField(max_length=100, default='Earth')
+    # email = models.EmailField(default=None)
+    # profile_picture = models.URLField(default='https://i.imgur.com/OYQulGk.png')
+    # user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
     country_list = []
     for c in list(pycountry.countries):
         country_list.append((c.alpha_2.lower(), c.name))
@@ -109,12 +70,12 @@ class Post(models.Model):
         Friend.objects.create(profile_1=self, profile_2=get_profile_model().get(uuid=other_uuid))
 
     def accept_friend_request(self, other_uuid):
-        friend_req = Friend.objects.get(profile_1=get_profile_model().get(uuid=other_uuid),profile_2=self)
+        friend_req = Friend.objects.get(profile_1=get_profile_model().get(uuid=other_uuid), profile_2=self)
         friend_req.is_friend = True
         friend_req.save()
 
     def decline_friend_request(self, other_uuid):
-        friend_req = friend_req = Friend.objects.get(profile_1=get_profile_model().get(uuid=other_uuid),profile_2=self)
+        friend_req = friend_req = Friend.objects.get(profile_1=get_profile_model().get(uuid=other_uuid), profile_2=self)
         friend_req.delete()
 
     def cancel_friend_request(self, other_uuid):
@@ -158,4 +119,9 @@ def get_profile_model():
 
 def friend_relation(self, other):
     return bool(len(Friend.objects.filter(Q(profile_1=self, profile_2=other) | Q(profile_1=other, profile_2=self))))
->>>>>>> origin/dev-ryan
+
+
+class Post(models.Model):
+    description = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)

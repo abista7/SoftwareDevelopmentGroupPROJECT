@@ -1,42 +1,6 @@
-<<<<<<< HEAD
-<html5>
-    <head>
-        <title>LingoMingo | lingomingo.app</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-              integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-              crossorigin="anonymous">
-    </head>
-
-    <body>
-
-    <form action="" method="get">
-        <label for="name">Search By Name</label>
-        <input type="text" name="name" placeholder="Search By Name">
-
-
-        <input type="submit">
-    </form>
-    <form>
-        <label for="gender">Filter By Gender</label>
-        <select id="gender" name="gender">
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-            <option value="O">Other</option>
-        </select>
-        <input type="submit">
-    </form>
-    <a href="/register/"><button>Register</button></a>
-    <a href="/login/"><button>Login</button></a>
-    {% if profile_list %}
-        <ul>
-            {% for profile in profile_list %}
-                <li><a href="/profile/{{ profile.id }}">{{ profile.name }}, {{ profile.email }}</a></li>
-            {% endfor %}
-        </ul>
-=======
 {% extends 'mainapp/base.html' %}
 {% block title %}Home{% endblock %}
->>>>>>> origin/dev-ryan
+
 
 {% block content %}
 

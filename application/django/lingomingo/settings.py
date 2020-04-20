@@ -120,10 +120,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-<<<<<<< HEAD
-LOGIN_REDIRECT_URL = '/homepage/'
+
+#LOGIN_REDIRECT_URL = '/homepage/'
 #bring users back to homepage
-=======
+
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
@@ -133,4 +133,4 @@ MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
                 message_constants.SUCCESS: 'success',
                 message_constants.WARNING: 'warning',
                 message_constants.ERROR: 'danger', }
->>>>>>> origin/dev-ryan
+

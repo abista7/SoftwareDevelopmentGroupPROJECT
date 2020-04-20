@@ -3,17 +3,10 @@
 {% block title %}Login{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-<<<<<<< HEAD
-    <form method="post" class="from-group">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" class="btn btn-success">Login</button>
-=======
     <form method="post" class="form-group">
     {% csrf_token %}
     {{ form|crispy }}
     <button type="submit" class="btn btn-success">Login</button>
     <p>Don't have a account? Create one <a href="{% url 'register' %}">here</a></p>
->>>>>>> origin/dev-ryan
     </form>
 {% endblock %}

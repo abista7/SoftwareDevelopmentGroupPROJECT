@@ -157,3 +157,13 @@ Banner
     font-size: 20px;
     border-radius: 25px;
 }
+button.message{
+    background-color: rgb(51, 71, 189);
+    color: white;
+    border-radius: 25px;
+}
+button.btn.btn-primary.pull-right{
+    background-color: rgb(51, 71, 189);
+    color: white;
+    border-radius: 25px;
+}

@@ -195,3 +195,8 @@ def setup(request):
 
     print('language database addition script finished successfully')
     return HttpResponse('Script Ran')
+
+
+def messages(request):
+    print(request.POST)
+    return render(request, 'mainapp/messages.html')

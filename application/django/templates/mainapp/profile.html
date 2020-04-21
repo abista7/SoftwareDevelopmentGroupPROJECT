@@ -1,0 +1,16 @@
+<html5>
+
+    <head>
+        <title>{{ profile.name }}'s Profile Page</title>
+    </head>
+
+
+    <img src="{{ profile.profile_picture }}" width="100"/>
+
+    <h1>{{ profile.name }}</h1>
+    <h3>from {{ profile.location }}</h3>
+    <p>knows {{ profile.primary_language }} and wants to learn {{ profile.learning_language}}</p>
+    <p><a href="mailto:{{ profile.email }}">Email Me!</a></p>
+
+    </body>
+</html5>

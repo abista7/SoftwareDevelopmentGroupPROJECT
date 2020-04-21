@@ -9,6 +9,7 @@ from django.dispatch import receiver
 
 from django.conf import settings
 
+import datetime
 
 # Create your models here.
 
@@ -95,6 +96,12 @@ class Profile(models.Model):
         post = Post.objects.get(id=post_id)
         post.delete()
 
+    def edit_post(self, post_id, desc):
+        post = Post.objects.get(id=post_id)
+        post.description = desc
+        post.created_at = datetime.datetime.now()
+        Post.save(post)
+
 
 class Friend(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -130,8 +137,8 @@ def friend_relation(self, other):
 
 class Post(models.Model):
     description = models.CharField(max_length=200)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'Post: ' + self.description
+        return 'Post: ' + self.description + "heroo"

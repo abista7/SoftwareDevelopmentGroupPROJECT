@@ -24,13 +24,27 @@
             <h3>Posts</h3>
             {% for post in post_list %}
                 <li>
-                    <textarea class="form-control"  readonly>{{ post.description }}</textarea>
-                    {% if user == profile.user %}
-                        <form method="post">
-                            {% csrf_token %}
-                            <button type="submit" name="delete_post" value={{ post.id }}>Delete Post</button>
-                        </form>
+                    {% if user != profile.user %}
+                        <div>
+                            <textarea class="form-control" readonly>{{ post.description }}</textarea>
+                            <div>{{ post.created_at }}</div>
+                        </div>
                     {% endif %}
+                    {% if user == profile.user %}
+                        <div>
+                            <form method="post">
+                                {% csrf_token %}
+                                    <textarea class="form-control " cols="50" rows="4" name="edit_post">{{ post.description }}</textarea>
+                                    <div>{{ post.created_at }}</div>
+                                    <button type="submit" name="edit_post_id" value={{ post.id }}>Edit</button>
+                            </form>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="delete_post" value={{ post.id }}>Delete</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                    <br>
                 </li>
             {% endfor %}
         </ul>
@@ -41,18 +55,22 @@
         </ul>
     {% endif %}
     <br>
+
     {% if user == profile.user %}
         <form method="post">
             {% csrf_token %}
-            <textarea class="form-control " cols="50" rows="4" id="create_post" name="create_post" ></textarea>
-            <button type="submit" value="{{ create_post }}">Create Post</button>
+            <textarea class="form-control " cols="50" rows="4" id="create_post" name="create_post"></textarea>
+            <button type="submit">Create Post</button>
         </form>
     {% endif %}
+
     <br>
     <br>
+
     <a href="{% url 'index' %}">
-    <button class="btn btn-info">Home</button>
+        <button class="btn btn-info">Home</button>
     </a>
+
     <br>
     <br>
     <br>

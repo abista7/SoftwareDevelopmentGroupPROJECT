@@ -9,6 +9,7 @@ from .forms import RegisterForm
 from .models import Profile, Language, Friend, get_profile_model, friend_relation, Post
 from django.http import HttpResponse
 
+import datetime
 
 def index(request):
     if request.user.is_authenticated:
@@ -57,7 +58,8 @@ def profile(request, profile_uuid):
     profile = get_profile_model().get(uuid=profile_uuid)
     post_list = Post.objects.filter(profile=profile)
     create_post = None
-    context = {'profile': profile, 'post_list': post_list, 'create_post':create_post}
+    edit_post = None
+    context = {'profile': profile, 'post_list': post_list, 'create_post':create_post, 'edit_post':edit_post}
 
     if request.method == 'POST':
         print(request.POST)
@@ -65,6 +67,10 @@ def profile(request, profile_uuid):
             request.user.profile.create_post(request.POST.get('create_post'))
         if request.POST.get('delete_post'):
             request.user.profile.delete_post(int(request.POST.get('delete_post')))
+        if request.POST.get('edit_post'):
+            desc = request.POST.get('edit_post')
+            postID = request.POST.get('edit_post_id')
+            request.user.profile.edit_post(postID, desc)
 
 
     return render(request, 'mainapp/profile.html', context=context)

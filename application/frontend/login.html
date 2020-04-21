@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LingoMingo Registration Form</title>
+<title>LingoMingo Login Form</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
@@ -12,13 +12,13 @@
   body{
     background-color: #FFFFFF;
   }
-	.registration-form {
+	.login-form {
 		width: 440px;
     	margin: 50px auto;
     margin-top: 150px;
     background-color: F8F8FF;
 	}
-    .registration-form form {
+    .login-form form {
       border: .5px solid;
       border-radius:5px;
     	margin-bottom: 15px;
@@ -26,7 +26,7 @@
         box-shadow: 4px 8px 10px rgba(0, 0, 0, 0.3);
         padding: 30px;
     }
-    .registration-form h2 {
+    .login-form h2 {
         margin: 0 0 15px;
     }
     .form-control, .btn {
@@ -40,46 +40,25 @@
 </style>
 </head>
 <body>
-<div class="registration-form">
+<div class="login-form">
     <form action="/examples/actions/confirmation.php" method="post">
-        <h2 class="text-center">Registration</h2>  
-      
-      <div class="form-group">
-          
-            <input type="text" class="form-control" placeholder="Name" required="required">
-        </div>
-      
+        <h2 class="text-center">Sign in</h2>       
         <div class="form-group">
           
             <input type="text" class="form-control" placeholder="Username" required="required">
         </div>
-      <div class="form-group">
-          
-            <input type="text" class="form-control" placeholder="Email" required="required">
-        </div>
-      
         <div class="form-group">
             <input type="password" class="form-control" placeholder="Password" required="required">
         </div>
-      
-      <div class="form-group">
-            <input type="password" class="form-control" placeholder="Confirm Password" required="required">
-        </div>
-      
-      <div class="form-group">
-          
-            <input type="Date" class="form-control" placeholder="Birthday" required="required">
-        </div>
-      
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Next</button>
+            <button type="submit" class="btn btn-primary btn-block">Log in</button>
         </div>
-<!--         <div class="clearfix">
+        <div class="clearfix">
             <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>
             <a href="#" class="pull-right">Forgot Password?</a>
-        </div>         -->
+        </div>        
     </form>
-    <p class="text-center" >Already have an Account?<a href="#"> Sign in</a></p>
+    <p class="text-center" >Don't have an Account?<a href="#"> Click here</a></p>
 </div>
 </body>
 </html>                                		                            

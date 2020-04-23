@@ -5,10 +5,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
-<link href="m.css" rel="stylesheet" type="text/css">
-
+<link href="../css/m.css" rel="stylesheet" type="text/css">
+<script src="jquery.js"></script>
+    <script>
+    $(function(){
+      $("#includedContent").load("nav.html");
+    });
+    </script>
 </head>
 <body>
+<div id="includedContent"></div>
 <div class="container">
 <h3 class=" text-center">Messages</h3>
 <div class="messaging">

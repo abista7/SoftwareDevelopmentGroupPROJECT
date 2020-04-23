@@ -117,6 +117,12 @@ def friends(request):
 def settings(request):
     # debug
     print(request.POST)
+
+    # list of profile icons for users to choose from
+    # https://fontawesome.com/icons?d=gallery&c=animals&m=free
+    icon_list = ['cat', 'crow', 'dog', 'dove', 'dragon', 'feather', 'fish', 'frog', 'hippo', 'horse',
+                 'horse-head', 'kiwi-bird', 'otter', 'paw', 'spider']
+
     # if form is submitted in setting page we update the profile object
     if request.method == 'POST':
 
@@ -171,6 +177,15 @@ def settings(request):
             messages.success(request,
                              request.POST.get('remove_learn_lang') + ' was removed from your Learning Languages')
 
+        # changing icons
+        if request.POST.get('icon'):
+            icon = request.POST.get('icon')
+            if icon_list.__contains__(icon):
+                request.user.profile.profile_icon = icon
+                messages.success(request, 'Your icon has been changed to ' + icon)
+            else:
+                messages.error(request, 'The icon you selected is invalid')
+
         # IMPORTANT: always save after modifying the object
         request.user.save()  # save user/profile object
 
@@ -179,14 +194,15 @@ def settings(request):
     user_learn_lang = request.user.profile.learning_language.all()
     languages = Language.objects.all()
     country_list = pycountry.countries.objects
+
     context = {'profile': request.user.profile, 'languages': languages, 'user_prime_lang': user_prime_lang,
-               'user_learn_lang': user_learn_lang, 'country_list': country_list}
+               'user_learn_lang': user_learn_lang, 'country_list': country_list, 'icon_list': icon_list}
     return render(request, 'mainapp/settings.html', context)
 
 
 def setup(request):
     lang_list_alpha_3 = ['spa', 'fra', 'deu', 'eng', 'jpn', 'ita', 'zho', 'ara', 'rus', 'kor', 'por', 'heb', 'hin',
-                         'nep', 'fas', 'tgl', 'hin', 'afr', 'nld', 'ben', 'tur', 'swa', 'urd']
+                         'nep', 'fas', 'tgl', 'hin', 'afr', 'nld', 'ben', 'tur', 'swa', 'urd', 'cat']
 
     lang_list_alpha_3.sort()
     lang_names = []
@@ -195,6 +211,8 @@ def setup(request):
         obj, created = Language.objects.get_or_create(alpha_3=lang, name=pycountry.languages.get(alpha_3=lang).name)
         if created:
             print(str(obj) + ' was added to database')
+
+    context = {'added_lang_list': lang_names}
 
     print('language database addition script finished successfully')
     return HttpResponse('Script Ran')

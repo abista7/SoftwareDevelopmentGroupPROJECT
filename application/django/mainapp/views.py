@@ -218,7 +218,7 @@ def setup(request):
     return HttpResponse('Script Ran')
 
 
-def messages(request):
+def inbox(request):
     print(request.POST)
     return render(request, 'mainapp/messages.html')
 

@@ -102,6 +102,12 @@ class Profile(models.Model):
         post.created_at = datetime.datetime.now()
         Post.save(post)
 
+    def like_post(self, post_id):
+        post = Post.objects.get(id=post_id)
+        post.like = post.like+1
+        Post.save(post)
+
+
 
 class Friend(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -139,6 +145,11 @@ class Post(models.Model):
     description = models.CharField(max_length=200)
     created_at = models.DateTimeField(default=datetime.datetime.now)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    like = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
-        return 'Post: ' + self.description + "heroo"
+        return 'Post: ' + self.description
+
+
+
+

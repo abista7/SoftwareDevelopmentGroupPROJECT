@@ -71,6 +71,8 @@ def profile(request, profile_uuid):
             desc = request.POST.get('edit_post')
             postID = request.POST.get('edit_post_id')
             request.user.profile.edit_post(postID, desc)
+        if request.POST.get('like_post'):
+            request.user.profile.like_post(int(request.POST.get('like_post')))
 
 
     return render(request, 'mainapp/profile.html', context=context)

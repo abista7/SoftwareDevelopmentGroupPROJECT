@@ -28,6 +28,11 @@
                         <div>
                             <textarea class="form-control" readonly>{{ post.description }}</textarea>
                             <div>{{ post.created_at }}</div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <div>Likes: {{ post.like }}</div>
+                                <button name="like_post" value={{ post.id }}>Like</button>
+                            </form>
                         </div>
                     {% endif %}
                     {% if user == profile.user %}
@@ -41,6 +46,13 @@
                             <form method="post">
                                 {% csrf_token %}
                                 <button type="submit" name="delete_post" value={{ post.id }}>Delete</button>
+                            </form>
+                          <form method="post">
+                                {% csrf_token %}
+                                <div>
+                                    <button name="like_post" value={{ post.id }}>Like</button>
+                                    Likes: {{ post.like }}
+                                </div>
                             </form>
                         </div>
                     {% endif %}

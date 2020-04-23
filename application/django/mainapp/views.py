@@ -110,7 +110,7 @@ def friends(request):
     # else render their friend list
     friend_list = request.user.profile.friend_list()
     context = {'friend_list': friend_list}
-    return render(request, 'mainapp/friends.html', context)
+    return render(request, 'mainapp/friendlist.html', context)
 
 
 @login_required
@@ -217,12 +217,7 @@ def setup(request):
     print('language database addition script finished successfully')
     return HttpResponse('Script Ran')
 
-
+@login_required()
 def inbox(request):
     print(request.POST)
     return render(request, 'mainapp/messages.html')
-
-
-def nav(request):
-    print(request.POST)
-    return render(request, 'mainapp/nav.html')

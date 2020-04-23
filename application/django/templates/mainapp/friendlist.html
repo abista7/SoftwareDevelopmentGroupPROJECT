@@ -1,0 +1,56 @@
+{% extends 'mainapp/base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% load static %}
+{% block content %}
+    <script>
+        document.getElementById("nav-friends").className += " active";
+    </script>
+
+    {#    <link rel="stylesheet" type="text/css" href="css/imagehover.min.css">#}
+    {#    <link rel="stylesheet" type="text/css" href="{% static 'css/friends.css' %}">#}
+
+    <br />
+    <br />
+    {% for friend in friend_list %}
+
+        <div class="shadow">
+            <div class="col-sm-12">
+
+
+                <div class="row">
+                    <div class="col-1">
+                        <i class="fas fa-{{ friend.profile_icon }} fa-2x"></i>
+                    </div>
+                    <div class="col-1">
+                        <h4><b href="#">{{ friend.user.first_name }}</b></h4>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        Primary: {% for lang in friend.primary_language.all %}{{ lang }} {% endfor %}
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col">
+                        Learning: {% for lang in friend.learning_language.all %}{{ lang }} {% endfor %}
+                    </div>
+                </div>
+                <div class="col-2 float-left">
+                    <br/>
+                    <button class="btn btn-primary">Message</button>
+                </div>
+                <div class="col-2 float-right">
+                    <br/>
+                    <button class="btn btn-outline-danger">Remove Friend</button>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <hr/>
+        </div>
+    {% endfor %}
+
+{% endblock %}

@@ -11,8 +11,8 @@
     {#    <link rel="stylesheet" type="text/css" href="css/imagehover.min.css">#}
     {#    <link rel="stylesheet" type="text/css" href="{% static 'css/friends.css' %}">#}
 
-    <br />
-    <br />
+    <br/>
+    <br/>
     {% for friend in friend_list %}
 
         <div class="shadow">
@@ -24,7 +24,7 @@
                         <i class="fas fa-{{ friend.profile_icon }} fa-2x"></i>
                     </div>
                     <div class="col-1">
-                        <h4><b href="#">{{ friend.user.first_name }}</b></h4>
+                        <h4><a href="{% url 'profile' friend.uuid %}">{{ friend.user.first_name }}</a></h4>
                     </div>
                 </div>
 

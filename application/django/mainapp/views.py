@@ -15,8 +15,6 @@ def index(request):
     # if user is authenticated display the following
     if request.user.is_authenticated:
         # display message if user has incomplete section in settings
-        if not request.user.profile.location or not request.user.profile.primary_language or not request.user.profile.learning_language:
-            messages.warning(request, mark_safe("<a href='settings/'>Please complete your profile</a>"))
 
         if request.method == 'POST':
             print(request.POST)  # debug purpose
@@ -205,3 +203,8 @@ def setup(request):
 def messages(request):
     print(request.POST)
     return render(request, 'mainapp/messages.html')
+
+
+def nav(request):
+    print(request.POST)
+    return render(request, 'mainapp/nav.html')

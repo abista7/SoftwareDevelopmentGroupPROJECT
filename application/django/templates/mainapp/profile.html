@@ -13,7 +13,7 @@
     About Me:
     <textarea class="form-control" cols="50" rows="4" readonly>{{ profile.about_me }}</textarea>
     {% if user == profile.user %}
-        <a href="{% url 'settings' %}">
+        <a href="{% url 'edit_profile' %}">
             <button class="btn btn-primary">Edit Your Profile</button>
         </a>
     {% endif %}

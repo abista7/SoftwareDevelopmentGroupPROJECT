@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.utils.safestring import mark_safe
 
 from .forms import RegisterForm
 from .models import Language, Friend, get_profile_model, friend_relation
@@ -114,7 +113,7 @@ def friends(request):
 
 
 @login_required
-def settings(request):
+def profile_settings(request):
     # debug
     print(request.POST)
 
@@ -197,7 +196,7 @@ def settings(request):
 
     context = {'profile': request.user.profile, 'languages': languages, 'user_prime_lang': user_prime_lang,
                'user_learn_lang': user_learn_lang, 'country_list': country_list, 'icon_list': icon_list}
-    return render(request, 'mainapp/settings.html', context)
+    return render(request, 'mainapp/profile_edit.html', context)
 
 
 def setup(request):
@@ -217,7 +216,13 @@ def setup(request):
     print('language database addition script finished successfully')
     return HttpResponse('Script Ran')
 
+
 @login_required()
 def inbox(request):
     print(request.POST)
     return render(request, 'mainapp/messages.html')
+
+
+def settings(request):
+    context = {}
+    return render(request, 'mainapp/settings.html', context)

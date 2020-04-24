@@ -45,7 +45,10 @@
                 </div>
                 <div class="col-2 float-right">
                     <br/>
-                    <button class="btn btn-outline-danger">Remove Friend</button>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger" name="unfriend" value="{{ friend.uuid }}">Remove Friend</button>
+                    </form>
                 </div>
             </div>
             <div class="clearfix"></div>

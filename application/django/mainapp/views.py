@@ -48,7 +48,7 @@ def index(request):
             if request.POST.get('search'):
                 query = request.POST.get('search')
                 search_results = get_profile_model().filter(
-                    Q(user__first_name__contains=query) | Q(user__last_name__contains=query))
+                    Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
                 context.update({'search_results': search_results})
 
         # matching:
@@ -69,6 +69,7 @@ def index(request):
             query_set.remove(profile)  # remove their own profile so they can't friend themselves
 
         context.update({'profile_list': query_set})
+        print(context)
         return render(request, 'mainapp/index.html', context)
 
     # else show them a login/signup page
@@ -94,7 +95,7 @@ def register(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('/')
+            return redirect('/profile/edit')
 
     else:
         form = RegisterForm()

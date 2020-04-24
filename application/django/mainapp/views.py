@@ -11,6 +11,7 @@ from .models import Language, Friend, get_profile_model, friend_relation
 
 
 def index(request):
+    context = {}
     # if user is authenticated display the following
     if request.user.is_authenticated:
         # display message if user has incomplete section in settings
@@ -44,6 +45,12 @@ def index(request):
                 messages.info(request, 'You have cancelled the friend request for ' + get_profile_model().get(
                     uuid=other_uuid).user.first_name)
 
+            if request.POST.get('search'):
+                query = request.POST.get('search')
+                search_results = get_profile_model().filter(
+                    Q(user__first_name__contains=query) | Q(user__last_name__contains=query))
+                context.update({'search_results': search_results})
+
         # matching:
         profile = request.user.profile
         query_set = set([])
@@ -60,7 +67,8 @@ def index(request):
 
         if query_set.__contains__(profile):
             query_set.remove(profile)  # remove their own profile so they can't friend themselves
-        context = {'profile_list': query_set}
+
+        context.update({'profile_list': query_set})
         return render(request, 'mainapp/index.html', context)
 
     # else show them a login/signup page

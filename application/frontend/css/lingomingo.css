@@ -37,6 +37,7 @@ a{
 a:hover, a:focus{
     color: #1E90FF;
 }
+
 b{
     color: rgb(134, 2, 2);
 }
@@ -52,7 +53,9 @@ c{
 Navigation bar
 ************************************/
 .navbar-default .navbar-brand {
+
     color: #1E90FF;
+
 }
 .navbar-default {
     background-color: #ffffff;
@@ -72,16 +75,20 @@ Navigation bar
 }
 .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover
 {
+
 	color: #1E90FF;
+
 }
 
 .navbar-nav .active a{
     background: none !important;
     color: #1E90FF !important;
+
     outline: none;
 }
 
 .btn-trial a{
+
 	background-color:#1E90FF;
 	border-radius: 25px;
 	color: #ffffff !important;
@@ -91,7 +98,9 @@ Navigation bar
 	border: 1px solid #1E90FF;
 	background-color: #fff;
 	color: #1E90FF !important;
+
 }
+
 .navbar-default .navbar-brand {
     font-family: 'Dosis', sans-serif !important;
     font-weight: 700;
@@ -135,7 +144,9 @@ Banner
     color: #fff;
 }
 .text-border{
+
 	border: 5px solid #1E90FF;
+
 	display: inline-block;
 	margin-top: 150px;
 }
@@ -154,17 +165,21 @@ Banner
 }
 .signup .button{
     position: relative;
+
     background-color: #1E90FF;
+
     color: white;
     font-size: 20px;
     border-radius: 25px;
 }
 button.message{
+
     background-color: #1E90FF;
     color: white;
     border-radius: 25px;
 }
 button.btn.btn-primary.pull-right{
+
     background-color: #1E90FF;
     color: white;
     border-radius: 25px;

@@ -30,10 +30,10 @@ h1, h2, h3, h4, h5, h6{
     color: #4b4c4c;
 }
 a{
-    color: rgb(51, 71, 189);
+    color: #31b0d5;
 }
 a:hover, a:focus{
-    color: rgb(51, 71, 189);
+    color: #31b0d5;
 }
 b{
     color: rgb(134, 2, 2);
@@ -50,7 +50,7 @@ c{
 Navigation bar
 ************************************/
 .navbar-default .navbar-brand {
-    color: rgb(51, 71, 189);
+    color: #31b0d5;
 }
 .navbar-default {
     background-color: #ffffff;
@@ -70,25 +70,25 @@ Navigation bar
 }
 .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover
 {
-	color: rgb(51, 71, 189);
+	color: #31b0d5;
 }
 
 .navbar-nav .active a{
     background: none !important;
-    color: rgb(51, 71, 189) !important;
+    color: #31b0d5!important;
     outline: none;
 }
 
 .btn-trial a{
-	background-color:rgb(51, 71, 189);
+	background-color:#31b0d5;
 	border-radius: 25px;
 	color: #ffffff !important;
-	border: 1px solid rgb(51, 71, 189);
+	border: 1px solid #31b0d5;
 }
 .btn-trial a:hover, .btn-trial a:focus{
-	border: 1px solid rgb(51, 71, 189);
+	border: 1px solid #31b0d5;
 	background-color: #fff;
-	color: rgb(51, 71, 189) !important;
+	color: #31b0d5 !important;
 }
 .navbar-default .navbar-brand {
     font-family: 'Dosis', sans-serif !important;
@@ -133,7 +133,7 @@ Banner
     color: #fff;
 }
 .text-border{
-	border: 5px solid rgb(51, 71, 189);
+	border: 5px solid #31b0d5;
 	display: inline-block;
 	margin-top: 150px;
 }
@@ -152,18 +152,18 @@ Banner
 }
 .signup .button{
     position: relative;
-    background-color: rgb(51, 71, 189);
+    background-color: #31b0d5;
     color: white;
     font-size: 20px;
     border-radius: 25px;
 }
 button.message{
-    background-color: rgb(51, 71, 189);
+    background-color: #31b0d5;
     color: white;
     border-radius: 25px;
 }
 button.btn.btn-primary.pull-right{
-    background-color: rgb(51, 71, 189);
+    background-color: #31b0d5;
     color: white;
     border-radius: 25px;
 }

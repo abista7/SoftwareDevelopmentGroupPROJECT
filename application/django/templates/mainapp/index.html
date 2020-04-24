@@ -61,9 +61,13 @@
             </form>
             {% if search_results %}
                 <h5>Results:</h5>
-                {% for profile in search_results %}
-                    <a href="{% url 'profile' profile.uuid %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
-                {% endfor %}
+                <ul>
+                    {% for profile in search_results %}
+                        <li>
+                            <a href="{% url 'profile' profile.uuid %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
             {% endif %}
         </div>
 

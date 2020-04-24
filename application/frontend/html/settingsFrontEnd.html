@@ -3,11 +3,17 @@
 <head>
      <meta charset="utf-8">
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-     <link href="http://netdna.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-     <link rel="stylesheet" href="/frontend/Profile_Settings_forgotP/css/settings.css">
+     <link rel="stylesheet" href="../css/settings.css">
+
+    <script src="jquery.js"></script>
+    <script>
+    $(function(){
+      $("#includedContent").load("nav.html");
+    });
+    </script>
 </head>
 <body>
+<div id="includedContent"></div>
 <div class="container p-0">
     <div class="row">
         <div class="col-md-5 col-xl-4">
@@ -41,43 +47,50 @@
                        <div class="card-header"><h5 class="card-title mb-0">Account Status</h5></div>
                        <div class="card-body">
                            <p>Taking a break from LingoMingo? You can deactivate your account here: </p>
-                           <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalDeactivate">Deactivate Account</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDeactivate">Deactivate Account</button>
                            <!-- Modal -->
-                            <div id="modalDeactivate" class="modal fade" role="dialog">
-                                <div class="modal-dialog">
+                            <div class="modal fade" id="modalDeactivate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
                                             <p>Are you sure you want to deactivate your account? </p>
-                                        </div>
+                                      </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Yes, I am  sure.</button>
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                            <a href="../html/welcome.html"><button type="button" class="btn btn-primary">Yes, I am  sure.</button></a>
+                                            <button type="button" class="btn btn-primary">Cancel</button>
                                         </div> <!-- Modal Footer -->
-                                    </div> <!-- Modal content -->
-                                </div> <!-- Modal Pop Up -->
-                            </div> <!-- Modal-->
+                                    </div>
+                                </div>
+                            </div>
                             <br><br>
                             <p>Mastered all languages? Delete your account here:</p>
-                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalDelete">Delete Account</button>
-                            <div id="modalDelete" class="modal fade" role="dialog">
-                                <div class="modal-dialog">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalDelete">Delete Account</button>
+                           <!-- Modal -->
+                            <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
                                             <p>Are you sure you want to delete your account? </p>
-                                        </div>
+                                      </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Yes, I am  sure.</button>
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                            <a href="../html/welcome.html"> <button type="button" class="btn btn-primary">Yes, I am  sure.</button></a>
+                                            <button type="button" class="btn btn-primary">Cancel</button>
                                         </div> <!-- Modal Footer -->
-                                    </div> <!-- Modal content -->
-                                </div> <!-- Modal Pop Up -->
-                            </div> <!-- Modal-->
+                                    </div>
+                                </div>
+                            </div>
                        </div> <!-- Card Body -->
                     </div> <!-- Card -->
                </div> <!-- Account Panel -->
@@ -108,6 +121,7 @@
                            <p>If you need to change your password, see "Change Password" below.</p>
                        </div>
                    </div>
+                   <br>
                    <div class="card">
 
                         <div class="card-body">
@@ -116,7 +130,7 @@
                                 <div class="form-group">
                                     <label for="inputPasswordCurrent">Current password</label>
                                     <input type="password" class="form-control" id="inputPasswordCurrent">
-                                    <small><a href="#">Forgot your password?</a></small>
+                                    <small><a href="../html/forgotPW.html">Forgot your password?</a></small>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputPasswordNew">New password</label>
@@ -166,9 +180,7 @@
        </div> <!-- column right -->
     </div> <!-- row -->
 </div> <!-- container for page -->
-<script src="http://netdna.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//unpkg.com/jquery@3.4.1/dist/jquery.min.js"></script>
-<script src="//unpkg.com/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
 
 <script type="text/javascript"></script>
 

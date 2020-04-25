@@ -102,11 +102,10 @@ class Profile(models.Model):
         post.created_at = datetime.datetime.now()
         Post.save(post)
 
-    def like_post(self, post_id):
+    def like_post(self, post_id, num):
         post = Post.objects.get(id=post_id)
-        post.like = post.like+1
+        post.like = post.like+num
         Post.save(post)
-
 
 
 class Friend(models.Model):
@@ -146,6 +145,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(default=datetime.datetime.now)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     like = models.PositiveSmallIntegerField(default=0)
+    profiles_liked = models.ManyToManyField(Profile, related_name="profiles_liked")
 
     def __str__(self):
         return 'Post: ' + self.description

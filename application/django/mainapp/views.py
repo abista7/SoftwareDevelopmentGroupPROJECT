@@ -72,8 +72,13 @@ def profile(request, profile_uuid):
             postID = request.POST.get('edit_post_id')
             request.user.profile.edit_post(postID, desc)
         if request.POST.get('like_post'):
-            request.user.profile.like_post(int(request.POST.get('like_post')))
-
+            post = Post.objects.get(id=int(request.POST.get('like_post')))
+            if request.user.profile not in post.profiles_liked.all():
+                request.user.profile.like_post(int(request.POST.get('like_post')),1)
+                post.profiles_liked.add(request.user.profile)
+            else:
+                request.user.profile.like_post(int(request.POST.get('like_post')), -1)
+                post.profiles_liked.remove(request.user.profile)
 
     return render(request, 'mainapp/profile.html', context=context)
 

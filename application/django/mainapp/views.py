@@ -5,13 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.utils.safestring import mark_safe
 
 from .forms import RegisterForm
 from .models import Language, Friend, get_profile_model, friend_relation
 
 
 def index(request):
+    context = {}
     # if user is authenticated display the following
     if request.user.is_authenticated:
         # display message if user has incomplete section in settings
@@ -45,6 +45,14 @@ def index(request):
                 messages.info(request, 'You have cancelled the friend request for ' + get_profile_model().get(
                     uuid=other_uuid).user.first_name)
 
+            if request.POST.get('search'):
+                query = request.POST.get('search')
+                search_results = get_profile_model().filter(
+                    Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
+                if len(search_results) == 0:
+                    messages.error(request, 'no result for the search query')
+                context.update({'search_results': search_results})
+
         # matching:
         profile = request.user.profile
         query_set = set([])
@@ -61,7 +69,9 @@ def index(request):
 
         if query_set.__contains__(profile):
             query_set.remove(profile)  # remove their own profile so they can't friend themselves
-        context = {'profile_list': query_set}
+
+        context.update({'profile_list': query_set})
+        print(context)
         return render(request, 'mainapp/index.html', context)
 
     # else show them a login/signup page
@@ -87,7 +97,7 @@ def register(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('/')
+            return redirect('/profile/edit')
 
     else:
         form = RegisterForm()
@@ -110,11 +120,11 @@ def friends(request):
     # else render their friend list
     friend_list = request.user.profile.friend_list()
     context = {'friend_list': friend_list}
-    return render(request, 'mainapp/friends.html', context)
+    return render(request, 'mainapp/friendlist.html', context)
 
 
 @login_required
-def settings(request):
+def profile_settings(request):
     # debug
     print(request.POST)
 
@@ -197,7 +207,7 @@ def settings(request):
 
     context = {'profile': request.user.profile, 'languages': languages, 'user_prime_lang': user_prime_lang,
                'user_learn_lang': user_learn_lang, 'country_list': country_list, 'icon_list': icon_list}
-    return render(request, 'mainapp/settings.html', context)
+    return render(request, 'mainapp/profile_edit.html', context)
 
 
 def setup(request):
@@ -218,11 +228,12 @@ def setup(request):
     return HttpResponse('Script Ran')
 
 
-def messages(request):
+@login_required()
+def inbox(request):
     print(request.POST)
     return render(request, 'mainapp/messages.html')
 
 
-def nav(request):
-    print(request.POST)
-    return render(request, 'mainapp/nav.html')
+def settings(request):
+    context = {}
+    return render(request, 'mainapp/settings.html', context)

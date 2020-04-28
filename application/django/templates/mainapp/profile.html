@@ -1,21 +1,170 @@
 {% extends 'mainapp/base.html' %}
 
 {% block title %}Profile{% endblock %}
-
-
+{% load static %}
 {% block content %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <div class="container emp-profile">
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-img">
+                        <img src="{% static 'images/cat_icon.webp' %}">
+                        <div class="file btn btn-lg btn-primary">
+                            Change Icon
+                            <input type="file" name="file"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="profile-head">
+                        <h1> {{ profile.user.username }}</h1>
+                        <p class="profile-rating">Tags :
+                            <button type="button" class="btn btn-sm btn-secondary" disabled>Easy to Understand</button>
+                            <button type="button" class="btn btn-sm btn-secondary" disabled>Friendly</button>
+                        </p>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                   aria-controls="home" aria-selected="true">About</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-    <h1><span
-            class="flag-icon flag-icon-{{ profile.location }}"></span> {{ profile.user.first_name }} {{ profile.user.last_name }}
-    </h1>
-    <p>knows {% for lang in profile.primary_language.all %}<b>{{ lang }}</b> {% endfor %}</p>
-    <p>wants to learn {% for lang in profile.learning_language.all %}<b>{{ lang }}</b> {% endfor %}</p>
-    About Me:
-    <textarea class="form-control" cols="50" rows="4" readonly>{{ profile.about_me }}</textarea>
-    {% if user == profile.user %}
-        <a href="{% url 'settings' %}">
-            <button class="btn btn-primary">Edit Your Profile</button>
-        </a>
-    {% endif %}
+                {% if profile.uuid == user.profile.uuid %}
+                    <div class="col-md-2">
+                        <button class="profile-edit-btn"><a href="{% url 'edit_profile' %}">Edit Profile</a></button>
+                    </div>
+                {% endif %}
 
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-languages">
+                        <br>
+                        <div class="col-md-" style="font-size: 12pt">
+                            <label>Primary Languages:
+                                <span style="font-size: 15pt">
+                                    {% for lang in profile.primary_language.all %}
+                                        {{ lang }}
+                                    {% endfor %}
+                                </span>
+                            </label>
+                        </div>
+                        <br>
+                        <div class="col-md-" style="font-size: 12pt">
+                            <label>Learning Languages: <span style="font-size: 15pt">
+                                {% for lang in profile.learning_language.all %}
+                                    {{ lang }}
+                                {% endfor %}
+                            </span></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="tab-content profile-tab" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row">
+                                <div class="col-md-6" style="font-size: 15pt">
+                                    <label>Name: </label>
+                                </div>
+                                <div class="col-md-6" style="font-size: 15pt">
+                                    <p>{{ profile.user.first_name }} {{ profile.user.last_name }}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" style="font-size: 15pt">
+                                    <label>Location: </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p style="font-size: 15pt">
+                                        {{ profile.get_location_full_name }}
+                                        <span class="flag-icon flag-icon-{{ profile.location }}"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" style="font-size: 15pt">
+                                    <label>About Me:</label>
+                                </div>
+                                <div class="col-md-6" style="font-size: 15pt">
+                                    <p>{{ profile.about_me }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container emp-profile overflow-auto">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-head">
+                    <h1>Posts</h1>
+                </div>
+                <div class="col-md-">
+                    <h5>Add post
+                        <button type="button" class="add">+</button>
+                    </h5>
+                </div>
+            </div>
+            <div class="col-md-8 left">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group shadow-textarea">
+                            <p class="profile-rating">
+                                <button type="button" class="btn btn-sm btn-secondary" disabled>Date Posted: 4/20/20
+                                </button>
+                            </p>
+                            <textarea disabled id="exampleFormControlTextarea1 rows=" 3">Today I was able to have a
+                            basic conversation with a match! </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group shadow-textarea">
+                            <p class="profile-rating">
+                                <button type="button" class="btn btn-sm btn-secondary" disabled>Date Posted: 4/15/20
+                                </button>
+                            </p>
+                            <p id="exampleFormControlTextarea1 rows=" 3">Latte I had the other day! So cute! <br> <img
+                                src="{% static 'images/snoopy-latte-art.jpg' %}"
+                                style="width:450px;height:200px;"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group shadow-textarea">
+                            <p class="profile-rating">
+                                <button type="button" class="btn btn-sm btn-secondary" disabled>Date Posted: 4/14/20
+                                </button>
+                            </p>
+                            <textarea disabled id="exampleFormControlTextarea1 rows=" 3">One year of Spanish. I was
+                            hoping to be at a level where I could read a newspaper of book without too much trouble. I
+                            can, but it takes quite some time. So reading, listening, writing are better than speaking.
+                            For that I just don’t have the speed yet. Not enough opportunities to speak Spanish for me.
+                            I am enjoying it a lot though.</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group shadow-textarea">
+                            <p class="profile-rating">
+                                <button type="button" class="btn btn-sm btn-secondary" disabled>Date Posted: 4/09/20
+                                </button>
+                            </p>
+                            <textarea disabled id="exampleFormControlTextarea1 rows=" 3">Listening to music and watching
+                            movies is really helpful for learning a language too!</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

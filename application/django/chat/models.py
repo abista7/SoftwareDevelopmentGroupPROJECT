@@ -5,20 +5,22 @@ from django.db import models
 from django.db.models import Q
 
 
-class Tread(models.Model):
-    user1 = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='tread_user_1', null=True)
-    user2 = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='tread_user_2', null=True)
-
-    def get_or_create_thread(self, user2):
-        if Tread.objects.filter(Q(self=self, user2=user2) | Q(self=user2, user2=self)).count() < 1:
-            Tread.objects.create(self=self, user2=user2)
-        return Tread.objects.filter(Q(self=self, user2=user2) | Q(self=user2, user2=self))
+class Thread(models.Model):
+    user1 = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='thread_user_1', null=True)
+    user2 = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='thread_user_2', null=True)
 
     def get_messages(self):
-        return Message.objects.filter(tread=self)
+        return Message.objects.filter(thread=self)
+
+
+def get_or_create_thread(user1, user2):
+    if Thread.objects.filter(Q(user1=user1, user2=user2) | Q(user1=user2, user2=user1)).count() < 1:
+        Thread.objects.create(user1=user1, user2=user2)
+    return Thread.objects.get(Q(user1=user1, user2=user2) | Q(user1=user2, user2=user1))
 
 
 class Message(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
-    tread = models.ForeignKey(Tread, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    thread = models.ForeignKey(Thread, on_delete=models.CASCADE, related_name='msg_thread_fk')
     body = models.TextField()

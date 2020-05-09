@@ -49,7 +49,7 @@ def index(request):
                 query = request.POST.get('search')
                 search_results = get_profile_model().filter(
                     Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
-                if len(search_results) == 0:
+                if search_results.count() == 0:
                     messages.error(request, 'no result for the search query')
                 context.update({'search_results': search_results})
 

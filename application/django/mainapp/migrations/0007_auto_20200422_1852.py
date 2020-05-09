@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mainapp', '0006_post_like'),
+        ('mainapp', '0006_profile_about_me'),
     ]
 
     operations = [

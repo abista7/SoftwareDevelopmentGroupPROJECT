@@ -43,6 +43,7 @@ class Profile(models.Model):
     location = models.CharField(choices=country_list, max_length=2, null=True)
     uuid = models.UUIDField(default=uuid.uuid4)
     about_me = models.TextField(default='nothing here', null=True)
+    profile_icon = models.CharField(max_length=20, default='paw')
 
     def __str__(self):
         return self.user.username
@@ -68,7 +69,7 @@ class Profile(models.Model):
             return ''
 
     def add_friend(self, other_uuid):
-        Friend.objects.create(profile_1=self, profile_2=get_profile_model().get(uuid=other_uuid))
+        Friend.objects.get_or_create(profile_1=self, profile_2=get_profile_model().get(uuid=other_uuid))
 
     def accept_friend_request(self, other_uuid):
         friend_req = Friend.objects.get(profile_1=get_profile_model().get(uuid=other_uuid), profile_2=self)
@@ -76,7 +77,7 @@ class Profile(models.Model):
         friend_req.save()
 
     def decline_friend_request(self, other_uuid):
-        friend_req = friend_req = Friend.objects.get(profile_1=get_profile_model().get(uuid=other_uuid), profile_2=self)
+        friend_req = Friend.objects.get(profile_1=get_profile_model().get(uuid=other_uuid), profile_2=self)
         friend_req.delete()
 
     def cancel_friend_request(self, other_uuid):

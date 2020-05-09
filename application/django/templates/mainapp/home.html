@@ -1,12 +1,30 @@
 {% extends 'mainapp/base.html' %}
 
 {% block title %}Home{% endblock %}
-
+{% load static %}
 {% block content %}
-    <a href="{% url 'register' %}">
-        <button class="btn btn-primary">Register</button>
-    </a>
-    <a href="{% url 'login' %}">
-        <button class="btn btn-primary">Login</button>
-    </a>
+    <link rel="stylesheet" type="text/css" href="{%static 'css/lingomingo.css' %}">
+    <div class="banner">
+        <div class="bg-color">
+            <div class="container">
+                <div class="row">
+                    <div class="banner-text text-center">
+                        <div class="text-border">
+                            <h2 class="text-dec">Welcome to LingoMingo</h2>
+                        </div>
+                        <div class="intro-para text-center quote">
+                            <p class="big-text">Learn & Teach Language </p>
+                            <p class="small-text">It is a platform where you can teach and
+                                learn language.Learn any language of your choice by matching with
+                                people who are fluent in that language. Along with learning a new
+                                language you can teach the language that you are fluent.</p>
+                            <div class="signup">
+                                <a href="{% url 'register' %}"><button class="button">Sign Up</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -1,6 +1,8 @@
 import os
 import django
 import pycountry
+import sys
+sys.path.append('..')
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lingomingo.settings')
 django.setup()

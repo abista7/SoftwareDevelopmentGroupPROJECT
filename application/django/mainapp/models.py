@@ -107,6 +107,8 @@ class Profile(models.Model):
         post.like = post.like+num
         Post.save(post)
 
+    def create_post2(self, desc, image):
+        Post.objects.create(profile=self, description=desc, image=image)
 
 class Friend(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -146,6 +148,7 @@ class Post(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     like = models.PositiveSmallIntegerField(default=0)
     profiles_liked = models.ManyToManyField(Profile, related_name="profiles_liked")
+    image = models.ImageField(upload_to='post', blank=True)
 
     def __str__(self):
         return 'Post: ' + self.description

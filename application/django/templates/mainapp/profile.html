@@ -1,7 +1,7 @@
 {% extends 'mainapp/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}Profile{% endblock %}
-
 
 {% block content %}
 
@@ -22,8 +22,10 @@
         <ul>
             <br>
             <h3>Posts</h3>
+
             {% for post in post_list %}
                 <li>
+
                     {% if user != profile.user %}
                         <div>
                             <textarea class="form-control" readonly>{{ post.description }}</textarea>
@@ -35,27 +37,35 @@
                             </form>
                         </div>
                     {% endif %}
+
                     {% if user == profile.user %}
                         <div>
                             <form method="post">
                                 {% csrf_token %}
-                                    <textarea class="form-control " cols="50" rows="4" name="edit_post">{{ post.description }}</textarea>
-                                    <div>{{ post.created_at }}</div>
-                                    <button type="submit" name="edit_post_id" value={{ post.id }}>Edit</button>
+                                <textarea class="form-control " cols="50" rows="4"
+                                          name="edit_post">{{ post.description }}</textarea>
+                                <div>{{ post.created_at }}      Likes: {{ post.like }}</div>
+                                <button  type="submit" name="edit_post_id" value={{ post.id }}>Edit</button>
                             </form>
+
                             <form method="post">
                                 {% csrf_token %}
                                 <button type="submit" name="delete_post" value={{ post.id }}>Delete</button>
                             </form>
-                          <form method="post">
+
+                            <form method="post">
                                 {% csrf_token %}
                                 <div>
-                                    <button name="like_post" value={{ post.id }}>Like</button>
-                                    Likes: {{ post.like }}
+                                    <button  name="like_post" value={{ post.id }}>Like</button>
                                 </div>
                             </form>
                         </div>
                     {% endif %}
+                    <br>
+                    {% if not post.image == "" %}
+                        <img src="{{ post.image.url }}">
+                    {% endif %}
+
                     <br>
                 </li>
             {% endfor %}
@@ -69,11 +79,17 @@
     <br>
 
     {% if user == profile.user %}
-        <form method="post">
-            {% csrf_token %}
-            <textarea class="form-control " cols="50" rows="4" id="create_post" name="create_post"></textarea>
-            <button type="submit">Create Post</button>
-        </form>
+        <div id="cp" style="display:none">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div>
+                    <button type="submit" }}>Submit</button>
+                </div>
+            </form>
+        </div>
+        <button type="button" onclick=showdiv(id="cp")>+</button>
+
     {% endif %}
 
     <br>

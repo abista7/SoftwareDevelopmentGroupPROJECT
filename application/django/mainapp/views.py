@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 
-from .forms import RegisterForm
+from .forms import *
 from .models import Profile, Language, Friend, get_profile_model, friend_relation, Post
 from django.http import HttpResponse
 
@@ -59,7 +59,8 @@ def profile(request, profile_uuid):
     post_list = Post.objects.filter(profile=profile)
     create_post = None
     edit_post = None
-    context = {'profile': profile, 'post_list': post_list, 'create_post':create_post, 'edit_post':edit_post}
+    form = PostForm()
+    context = {'profile': profile, 'post_list': post_list, 'create_post':create_post, 'edit_post':edit_post, 'form': form}
 
     if request.method == 'POST':
         print(request.POST)
@@ -79,6 +80,12 @@ def profile(request, profile_uuid):
             else:
                 request.user.profile.like_post(int(request.POST.get('like_post')), -1)
                 post.profiles_liked.remove(request.user.profile)
+        if request.method == 'POST':
+            form = PostForm(request.POST, request.FILES)
+            if form.is_valid():
+                f = form.save(commit=False)
+                f.profile = request.user.profile
+                f.save()
 
     return render(request, 'mainapp/profile.html', context=context)
 
@@ -93,7 +100,6 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'registration/register.html', {'form': form})
-
 
 
 def homepage(request):
@@ -183,4 +189,3 @@ def setup(request):
     print('language database addition script finished successfully')
 
     return HttpResponse('Script Ran')
-

@@ -104,8 +104,8 @@ class Profile(models.Model):
 
     def like_post(self, post_id, num):
         post = Post.objects.get(id=post_id)
-        post.like = F('like') + 1  # to prevent  race condition
-        post.save()
+        post.like = F('like') + num  # to prevent  race condition
+        Post.save(post)
 
     def create_post2(self, desc, image):
         Post.objects.create(profile=self, description=desc, image=image)

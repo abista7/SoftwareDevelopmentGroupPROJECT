@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -17,7 +16,7 @@ class RegisterForm(UserCreationForm):
 
 
 class PostForm(forms.ModelForm):
-    description = forms.CharField(max_length=255)
+    description = forms.CharField(max_length=255, widget=forms.Textarea(attrs={'placeholder': 'Whats on your mind?'}))
     image = forms.ImageField(required=False)
 
     class Meta:

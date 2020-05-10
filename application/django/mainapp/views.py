@@ -144,13 +144,6 @@ def register(request):
         form = RegisterForm()
     return render(request, 'registration/register.html', {'form': form})
 
-
-def homepage(request):
-    username = request.user.get_username()
-    userProfile= get_profile_model().get(user=request.user)
-    return render(request, 'mainapp/homepage.html', context={'username': username, 'profile': userProfile})
-
-
 @login_required
 def friends(request):
     print(request.POST)

@@ -147,19 +147,19 @@
                                         </button>
                                     {% endif %}
                                 </form>
-                                {% if user == profile.user %}
                                     <form method="post">
                                         {% csrf_token %}
                                         <button class="btn btn-primary" name="like_post" value={{ post.id }}>
                                             Like
                                         </button>
-                                        <button class="btn btn-danger" type="submit" name="delete_post"
-                                                value={{ post.id }}>
-                                            Delete
-                                        </button>
+                                        {% if user == profile.user %}
+                                            <button class="btn btn-danger" type="submit" name="delete_post"
+                                                    value={{ post.id }}>
+                                                Delete
+                                            </button>
+                                        {% endif %}
                                     </form>
                                     <div> Likes: {{ post.like }} </div>
-                                {% endif %}
                             </div>
                         </div>
                     </div>

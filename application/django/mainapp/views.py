@@ -6,15 +6,12 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-
-
-#from .models import Profile, Language, Friend, get_profile_model, friend_relation, Post
-
 from .forms import RegisterForm, PostForm
 from .models import Language, Friend, get_profile_model, friend_relation, Post
 
 
-import datetime
+# from .models import Profile, Language, Friend, get_profile_model, friend_relation, Post
+
 
 def index(request):
     context = {}
@@ -93,11 +90,12 @@ def index(request):
 @login_required
 def profile(request, profile_uuid):  # returns profile info with requested uuid
     profile = get_profile_model().get(uuid=profile_uuid)
-    post_list = Post.objects.filter(profile=profile)
+    post_list = Post.objects.filter(profile=profile).order_by('created_at').reverse()  # latest post shows first
     create_post = None
     edit_post = None
     form = PostForm()
-    context = {'profile': profile, 'post_list': post_list, 'create_post':create_post, 'edit_post':edit_post, 'form': form}
+    context = {'profile': profile, 'post_list': post_list, 'create_post': create_post, 'edit_post': edit_post,
+               'form': form}
 
     if request.method == 'POST':
         print(request.POST)
@@ -112,7 +110,7 @@ def profile(request, profile_uuid):  # returns profile info with requested uuid
         if request.POST.get('like_post'):
             post = Post.objects.get(id=int(request.POST.get('like_post')))
             if request.user.profile not in post.profiles_liked.all():
-                request.user.profile.like_post(int(request.POST.get('like_post')),1)
+                request.user.profile.like_post(int(request.POST.get('like_post')), 1)
                 post.profiles_liked.add(request.user.profile)
             else:
                 request.user.profile.like_post(int(request.POST.get('like_post')), -1)
@@ -143,6 +141,13 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'registration/register.html', {'form': form})
+
+
+def homepage(request):
+    username = request.user.get_username()
+    userProfile = get_profile_model().get(user=request.user)
+    return render(request, 'mainapp/homepage.html', context={'username': username, 'profile': userProfile})
+
 
 @login_required
 def friends(request):

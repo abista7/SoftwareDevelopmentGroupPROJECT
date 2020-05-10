@@ -1,15 +1,14 @@
+import datetime
 import uuid
-import pycountry
 
+import humanize
+import pycountry
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Q
+from django.db.models import F, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from django.conf import settings
-
-import datetime
 
 # Create your models here.
 
@@ -105,11 +104,12 @@ class Profile(models.Model):
 
     def like_post(self, post_id, num):
         post = Post.objects.get(id=post_id)
-        post.like = post.like+num
+        post.like = F('like') + num  # to prevent  race condition
         Post.save(post)
 
     def create_post2(self, desc, image):
         Post.objects.create(profile=self, description=desc, image=image)
+
 
 class Friend(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -154,6 +154,5 @@ class Post(models.Model):
     def __str__(self):
         return 'Post: ' + self.description
 
-
-
-
+    def get_time(self):
+        return humanize.naturaltime(self.created_at)

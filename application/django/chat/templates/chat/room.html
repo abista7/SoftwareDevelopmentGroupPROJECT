@@ -22,7 +22,7 @@
 
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
-        document.querySelector('#chat-log').value += (data.user + ': \n' + data.message + '\n');
+        document.querySelector('#chat-log').append(data.user + ': \n' + data.message + '\n');
     };
 
     chatSocket.onclose = function (e) {
@@ -45,6 +45,10 @@
         }));
         messageInputDom.value = '';
     };
+
+    function scroll(){
+
+    }
 </script>
 </body>
 </html>

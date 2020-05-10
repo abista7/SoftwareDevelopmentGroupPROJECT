@@ -12,7 +12,5 @@ urlpatterns = [
     path('setup/', views.setup, name='setup'),
     path('messages/', views.inbox, name='messages'),
 
-    path('homepage/', views.homepage, name='home'),
-
 ]
 

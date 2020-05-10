@@ -147,8 +147,6 @@ class Post(models.Model):
     description = models.CharField(max_length=200)
     created_at = models.DateTimeField(default=datetime.datetime.now)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    like = models.PositiveSmallIntegerField(default=0)
-    profiles_liked = models.ManyToManyField(Profile, related_name="profiles_liked")
     image = models.ImageField(upload_to='post', blank=True)
 
     def __str__(self):
@@ -156,3 +154,18 @@ class Post(models.Model):
 
     def get_time(self):
         return humanize.naturaltime(self.created_at)
+
+    def get_like_count(self):
+        return Like.objects.filter(post=self).count()
+
+    def is_liked(self, profile):
+        return Like.objects.filter(post=self, profile=profile).count() > 0
+
+    def liked_by(self):
+        return Like.objects.filter(post=self)[:3]
+
+
+class Like(models.Model):
+    created_on = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)

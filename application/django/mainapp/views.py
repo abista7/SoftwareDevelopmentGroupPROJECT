@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from .forms import RegisterForm, PostForm
-from .models import Language, Friend, get_profile_model, friend_relation, Post
+from .models import Language, Friend, get_profile_model, friend_relation, Post, Like
 
 
 # from .models import Profile, Language, Friend, get_profile_model, friend_relation, Post
@@ -108,13 +108,20 @@ def profile(request, profile_uuid):  # returns profile info with requested uuid
             postID = request.POST.get('edit_post_id')
             request.user.profile.edit_post(postID, desc)
         if request.POST.get('like_post'):
-            post = Post.objects.get(id=int(request.POST.get('like_post')))
-            if request.user.profile not in post.profiles_liked.all():
-                request.user.profile.like_post(int(request.POST.get('like_post')), 1)
-                post.profiles_liked.add(request.user.profile)
+            post = Post.objects.get(pk=request.POST.get('like_post'))
+            profile = request.user.profile
+            if post.is_liked(profile):
+                Like.objects.get(post=post, profile=profile).delete()
             else:
-                request.user.profile.like_post(int(request.POST.get('like_post')), -1)
-                post.profiles_liked.remove(request.user.profile)
+                Like.objects.create(post=post, profile=profile)
+
+            # post = Post.objects.get(id=int(request.POST.get('like_post')))
+            # if request.user.profile not in post.profiles_liked.all():
+            #     request.user.profile.like_post(int(request.POST.get('like_post')), 1)
+            #     post.profiles_liked.add(request.user.profile)
+            # else:
+            #     request.user.profile.like_post(int(request.POST.get('like_post')), -1)
+            #     post.profiles_liked.remove(request.user.profile)
         if request.method == 'POST':
             form = PostForm(request.POST, request.FILES)
             if form.is_valid():

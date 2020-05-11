@@ -6,8 +6,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from chat.models import *
-from .forms import RegisterForm
-from .models import Language, Friend, get_profile_model, friend_relation
+from .forms import RegisterForm, PostForm
+from .models import Language, Friend, get_profile_model, friend_relation, Post
 
 
 def index(request):
@@ -79,10 +79,46 @@ def index(request):
         return render(request, 'mainapp/home.html')
 
 
+# def profile(request, profile_id):
+#     profile = get_object_or_404(Profile, pk=profile_id)
+#     post_list = Post.objects.filter(profile=profile)
+#     return render(request, 'mainapp/profile.html', context={'profile': profile, 'post_list': post_list})
+
 @login_required
 def profile(request, profile_uuid):  # returns profile info with requested uuid
     profile = get_profile_model().get(uuid=profile_uuid)
-    context = {'profile': profile}
+    post_list = Post.objects.filter(profile=profile).order_by('created_at').reverse()  # latest post shows first
+    create_post = None
+    edit_post = None
+    form = PostForm()
+    context = {'profile': profile, 'post_list': post_list, 'create_post': create_post, 'edit_post': edit_post,
+               'form': form}
+
+    if request.method == 'POST':
+        print(request.POST)
+        if request.POST.get('create_post'):
+            request.user.profile.create_post(request.POST.get('create_post'))
+        if request.POST.get('delete_post'):
+            request.user.profile.delete_post(int(request.POST.get('delete_post')))
+        if request.POST.get('edit_post'):
+            desc = request.POST.get('edit_post')
+            postID = request.POST.get('edit_post_id')
+            request.user.profile.edit_post(postID, desc)
+        if request.POST.get('like_post'):
+            post = Post.objects.get(id=int(request.POST.get('like_post')))
+            if request.user.profile not in post.profiles_liked.all():
+                request.user.profile.like_post(int(request.POST.get('like_post')), 1)
+                post.profiles_liked.add(request.user.profile)
+            else:
+                request.user.profile.like_post(int(request.POST.get('like_post')), -1)
+                post.profiles_liked.remove(request.user.profile)
+        if request.method == 'POST':
+            form = PostForm(request.POST, request.FILES)
+            if form.is_valid():
+                f = form.save(commit=False)
+                f.profile = request.user.profile
+                f.save()
+
     return render(request, 'mainapp/profile.html', context=context)
 
 
@@ -102,6 +138,12 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'registration/register.html', {'form': form})
+
+
+def homepage(request):
+    username = request.user.get_username()
+    userProfile = get_profile_model().get(user=request.user)
+    return render(request, 'mainapp/homepage.html', context={'username': username, 'profile': userProfile})
 
 
 @login_required
@@ -248,3 +290,20 @@ def inbox(request, other_profile_uuid=''):
 def settings(request):
     context = {}
     return render(request, 'mainapp/settings.html', context)
+
+
+def setup(request):
+    lang_list_alpha_3 = ['spa', 'fra', 'deu', 'eng', 'jpn', 'ita', 'zho', 'ara', 'rus', 'kor', 'por', 'heb', 'hin',
+                         'nep', 'fas', 'tgl', 'hin', 'afr', 'nld', 'ben', 'tur', 'swa', 'urd']
+
+    lang_list_alpha_3.sort()
+    lang_names = []
+    for lang in lang_list_alpha_3:
+        lang_names.append(pycountry.languages.get(alpha_3=lang).name)
+        obj, created = Language.objects.get_or_create(alpha_3=lang, name=pycountry.languages.get(alpha_3=lang).name)
+        if created:
+            str(obj) + ' was added to database'
+
+    print('language database addition script finished successfully')
+
+    return HttpResponse('Script Ran')

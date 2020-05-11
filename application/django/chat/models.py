@@ -18,6 +18,12 @@ class Thread(models.Model):
     def get_last_message(self):
         return Message.objects.filter(thread=self).last()
 
+    def get_other_username(self, user):
+        if user == self.user1:
+            return self.user2.username
+        else:
+            return self.user1.username
+
 
 def get_or_create_thread(user1, user2):
     if Thread.objects.filter(Q(user1=user1, user2=user2) | Q(user1=user2, user2=user1)).count() < 1:
@@ -33,4 +39,4 @@ class Message(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE, related_name='msg_thread_fk')
-    body = models.TextField()
+    body = models.TextField(max_length=640)

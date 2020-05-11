@@ -31,6 +31,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'chat',
+    'channels',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -70,6 +72,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'lingomingo.wsgi.application'
+ASGI_APPLICATION = 'lingomingo.routing.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

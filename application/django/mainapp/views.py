@@ -2,15 +2,12 @@ import pycountry
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
+from chat.models import *
 from .forms import RegisterForm, PostForm
 from .models import Language, Friend, get_profile_model, friend_relation, Post
-
-
-# from .models import Profile, Language, Friend, get_profile_model, friend_relation, Post
 
 
 def index(request):
@@ -52,7 +49,7 @@ def index(request):
                 query = request.POST.get('search')
                 search_results = get_profile_model().filter(
                     Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
-                if len(search_results) == 0:
+                if search_results.count() == 0:
                     messages.error(request, 'no result for the search query')
                 context.update({'search_results': search_results})
 
@@ -274,9 +271,20 @@ def setup(request):
 
 
 @login_required()
-def inbox(request):
+def inbox(request, other_profile_uuid=''):
     print(request.POST)
-    return render(request, 'mainapp/messages.html')
+    context = {}
+
+    if other_profile_uuid == '':
+        threads = get_thread_by_user(request.user)
+        context.update({'threads': threads})
+    else:
+        other_profile = get_profile_model().get(uuid=other_profile_uuid)
+        thread = get_or_create_thread(user1=request.user, user2=other_profile.user)
+        messages = Message.objects.filter(thread=thread)
+        context.update({'room_name': thread.id, 'messages': messages})
+
+    return render(request, 'mainapp/messages.html', context)
 
 
 def settings(request):

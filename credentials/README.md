@@ -1,15 +1,16 @@
 # Credentials Folder
 
-1. Server URL or IP: [`lingomingo.app`](https://lingomingo.app/) | `34.213.215.231`
+1. Server URL or IP: [`lingomingo.app`](https://lingomingo.app/) | `64.225.126.61`
 2. SSH username: `ubuntu`
 3. SSH password or key: `key.pem` & `key.pkk` included in the current directory
-4. Database URL or IP and port: `localhost:5432`
-5. Database username: `lingouser`
-6. Database password: `HDo!n5!eW54z6*E#`
-7. Database name: `lingo`
-8. Django's admin panel: 
-username:`admin `
-password:`yVOiy6^lJj9vT$2Q`
+4. ubuntu user sudo password : lingomingo
+5. Database URL or IP and port: `localhost:5432`
+6. Database username: `lingouser`
+7. Database password: `HDo!n5!eW54z6*E#`
+8. Database name: `lingo`
+9. Django's admin panel: 
+  username:`admin `
+  password:`yVOiy6^lJj9vT$2Q`
 
 ## Connecting To Server Via SSH
 1. Download the key files: `key.pem` for OpenSSH(macOS/Linux), or `key.pkk` for Putty(Windows)
@@ -19,13 +20,13 @@ chmod 400 key.pem
 ```
 3. On macOS/Linux terminal: 
 ```
-ssh -i /path/to/key.pem ubuntu@34.213.215.231
+ssh -i /path/to/key.pem ubuntu@64.225.126.61
 ```
 #### OR
 1. on Windows Computer, download software ["putty"](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
 1. On the left side, click `Connection - Data`, enter `ubuntu` into `"Auto-login username"`
 1. On the left side, click `Connection - SSH - Auth`, click on `Browse` button to locate key.pkk you downloaded.
-1. Click `Session - Host Name`, enter `34.213.215.231` and type LingoAWS into `Saved Sessions` and click `Save`, then click `Open`.
+1. Click `Session - Host Name`, enter `64.225.126.61` and type LingoAWS into `Saved Sessions` and click `Save`, then click `Open`.
 
 ## Acessing Django's Admin Panel
 1. visit [https://lingomingo.app/admin/](https://lingomingo.app/admin/)

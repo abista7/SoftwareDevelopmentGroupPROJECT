@@ -237,3 +237,12 @@ def inbox(request):
 def settings(request):
     context = {}
     return render(request, 'mainapp/settings.html', context)
+
+
+def match(request):
+    context = {}
+    return render(request, 'mainapp/match.html', context)
+
+def stepbar(request):
+    context = {}
+    return render(request, 'mainapp/stepbar.html', context)

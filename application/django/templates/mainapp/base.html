@@ -15,16 +15,20 @@
 <body>
 
 <header>
-    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+
+    <nav class="navbar navbar-expand-md navbar-dark cyan bg-info">
         <a class="navbar-brand" href="{% url 'index' %}">LingoMingo</a>
         {% if user.is_authenticated %}
             <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item" id="nav-friends">
-                        <a class="nav-link" href="{% url 'friends' %}">Friends</a>
+                        <a class="nav-link" href="{% url 'friends' %}"><i class="fa fa-users"></i>Friends</a>
                     </li>
                     <li class="nav-item" id="nav-messages">
-                        <a class="nav-link" href="{% url 'messages' %}">Messages</a>
+                        <a class="nav-link" href="{% url 'messages' %}"><i class="fa fa-envelope"></i>Messages</a>
+                    </li>
+                    <li class="nav-item" id="nav-settings">
+                        <a class="nav-link" href="{% url 'messages' %}"><i class="fa fa-gear"></i>Settings</a>
                     </li>
                 </ul>
             </div>
@@ -81,7 +85,7 @@
     </div>
 {% endif %}
 
-<div class="container">
+<div class="container-fluid">
     {% block content %}
     {% endblock %}
 </div>

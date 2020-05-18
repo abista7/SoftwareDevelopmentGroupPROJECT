@@ -5,13 +5,16 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.utils.safestring import mark_safe
 
-from .forms import RegisterForm
-from .models import Language, Friend, get_profile_model, friend_relation
+from .forms import RegisterForm, PostForm
+from .models import Language, Friend, get_profile_model, friend_relation, Post
+
+
+# from .models import Profile, Language, Friend, get_profile_model, friend_relation, Post
 
 
 def index(request):
+    context = {}
     # if user is authenticated display the following
     if request.user.is_authenticated:
         # display message if user has incomplete section in settings
@@ -45,6 +48,14 @@ def index(request):
                 messages.info(request, 'You have cancelled the friend request for ' + get_profile_model().get(
                     uuid=other_uuid).user.first_name)
 
+            if request.POST.get('search'):
+                query = request.POST.get('search')
+                search_results = get_profile_model().filter(
+                    Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
+                if len(search_results) == 0:
+                    messages.error(request, 'no result for the search query')
+                context.update({'search_results': search_results})
+
         # matching:
         profile = request.user.profile
         query_set = set([])
@@ -61,7 +72,9 @@ def index(request):
 
         if query_set.__contains__(profile):
             query_set.remove(profile)  # remove their own profile so they can't friend themselves
-        context = {'profile_list': query_set}
+
+        context.update({'profile_list': query_set})
+        print(context)
         return render(request, 'mainapp/index.html', context)
 
     # else show them a login/signup page
@@ -69,10 +82,46 @@ def index(request):
         return render(request, 'mainapp/home.html')
 
 
+# def profile(request, profile_id):
+#     profile = get_object_or_404(Profile, pk=profile_id)
+#     post_list = Post.objects.filter(profile=profile)
+#     return render(request, 'mainapp/profile.html', context={'profile': profile, 'post_list': post_list})
+
 @login_required
 def profile(request, profile_uuid):  # returns profile info with requested uuid
     profile = get_profile_model().get(uuid=profile_uuid)
-    context = {'profile': profile}
+    post_list = Post.objects.filter(profile=profile).order_by('created_at').reverse()  # latest post shows first
+    create_post = None
+    edit_post = None
+    form = PostForm()
+    context = {'profile': profile, 'post_list': post_list, 'create_post': create_post, 'edit_post': edit_post,
+               'form': form}
+
+    if request.method == 'POST':
+        print(request.POST)
+        if request.POST.get('create_post'):
+            request.user.profile.create_post(request.POST.get('create_post'))
+        if request.POST.get('delete_post'):
+            request.user.profile.delete_post(int(request.POST.get('delete_post')))
+        if request.POST.get('edit_post'):
+            desc = request.POST.get('edit_post')
+            postID = request.POST.get('edit_post_id')
+            request.user.profile.edit_post(postID, desc)
+        if request.POST.get('like_post'):
+            post = Post.objects.get(id=int(request.POST.get('like_post')))
+            if request.user.profile not in post.profiles_liked.all():
+                request.user.profile.like_post(int(request.POST.get('like_post')), 1)
+                post.profiles_liked.add(request.user.profile)
+            else:
+                request.user.profile.like_post(int(request.POST.get('like_post')), -1)
+                post.profiles_liked.remove(request.user.profile)
+        if request.method == 'POST':
+            form = PostForm(request.POST, request.FILES)
+            if form.is_valid():
+                f = form.save(commit=False)
+                f.profile = request.user.profile
+                f.save()
+
     return render(request, 'mainapp/profile.html', context=context)
 
 
@@ -87,11 +136,17 @@ def register(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('/')
+            return redirect('/profile/edit')
 
     else:
         form = RegisterForm()
     return render(request, 'registration/register.html', {'form': form})
+
+
+def homepage(request):
+    username = request.user.get_username()
+    userProfile = get_profile_model().get(user=request.user)
+    return render(request, 'mainapp/homepage.html', context={'username': username, 'profile': userProfile})
 
 
 @login_required
@@ -110,11 +165,11 @@ def friends(request):
     # else render their friend list
     friend_list = request.user.profile.friend_list()
     context = {'friend_list': friend_list}
-    return render(request, 'mainapp/friends.html', context)
+    return render(request, 'mainapp/friendlist.html', context)
 
 
 @login_required
-def settings(request):
+def profile_settings(request):
     # debug
     print(request.POST)
 
@@ -197,7 +252,7 @@ def settings(request):
 
     context = {'profile': request.user.profile, 'languages': languages, 'user_prime_lang': user_prime_lang,
                'user_learn_lang': user_learn_lang, 'country_list': country_list, 'icon_list': icon_list}
-    return render(request, 'mainapp/settings.html', context)
+    return render(request, 'mainapp/profile_edit.html', context)
 
 
 def setup(request):
@@ -218,11 +273,29 @@ def setup(request):
     return HttpResponse('Script Ran')
 
 
-def messages(request):
+@login_required()
+def inbox(request):
     print(request.POST)
     return render(request, 'mainapp/messages.html')
 
 
-def nav(request):
-    print(request.POST)
-    return render(request, 'mainapp/nav.html')
+def settings(request):
+    context = {}
+    return render(request, 'mainapp/settings.html', context)
+
+
+def setup(request):
+    lang_list_alpha_3 = ['spa', 'fra', 'deu', 'eng', 'jpn', 'ita', 'zho', 'ara', 'rus', 'kor', 'por', 'heb', 'hin',
+                         'nep', 'fas', 'tgl', 'hin', 'afr', 'nld', 'ben', 'tur', 'swa', 'urd']
+
+    lang_list_alpha_3.sort()
+    lang_names = []
+    for lang in lang_list_alpha_3:
+        lang_names.append(pycountry.languages.get(alpha_3=lang).name)
+        obj, created = Language.objects.get_or_create(alpha_3=lang, name=pycountry.languages.get(alpha_3=lang).name)
+        if created:
+            str(obj) + ' was added to database'
+
+    print('language database addition script finished successfully')
+
+    return HttpResponse('Script Ran')

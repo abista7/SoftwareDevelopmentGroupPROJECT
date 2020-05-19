@@ -9,7 +9,8 @@
     </br>
     <div class="container mb-5">
         <div class="d-flex justify-content-between mb-3">
-            <h2 class="font">Find People</h2>
+            <h2 class="font">Friend Requests</h2>
+            <h2 class="font">Your Matches</h2>
             {# THIS IS THE SORT BY AT TOP RIGHT #}
             <div>
                 <select class="form-control font">
@@ -19,10 +20,14 @@
                     <option>MPG (desc)</option>
                 </select>
             </div>
+
         </div>
 
         {# ROW WHERE EVERYTHING STARTS #}
         <div class="row">
+
+
+
 
             {# THIS IS THE UPPER LEFT SIDE OF PAGE WHERE FRIENDS IS AT #}
             <!-- Friend List================================================= -->
@@ -30,11 +35,26 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="sr-only">Filter</h4>
-                        <small class="text-uppercase text-muted d-block mb-1">Friends</small>
+                        <small class="text-uppercase text-muted d-block mb-1">Add Friends</small>
+                        {% if not user.profile.incoming_friend_reqeust %}
+                            <p>No requests yet </p>
+                        {% endif %}
+
                         <ul class="nav nav-pills flex-column mb-3">
+                            {% for p in user.profile.incoming_friend_request.all %}
                             <li class="nav-item">
-                                <a class="nav-link p-1 text-secondary">MARIAM</a>
+                                <a class="nav-link p-1 text-secondary" href="{% url 'profile' p.profile_1.uuid %}">{{ p.profile_1.user.first_name }}</a>
                             </li>
+                                <form action="" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-success" type="submit" name="accept_friend_request"
+                                    value="{{ p.profile_1.uuid }}">Accept
+                            </button>
+                            <button class="btn btn-danger" type="submit" name="decline_friend_request"
+                                    value="{{ p.profile_1.uuid }}">Decline
+                            </button>
+                        </form>
+                    {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -70,6 +90,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- need to figure out how to make the buttons fill the card footer-->
                             <div class="card-footer">
                                 <div class="btn-group d-flex" role="group">
                                     <button type="submit" class="btn btn-info w-100">Add Friend</button>
@@ -84,25 +105,73 @@
     </div>
 
 
-    {# after this is nonsense, just pushing for keepsake in case i need something #}
-  <div class="btn-group mr-2" role="group" aria-label="First group">
-    <button type="button" class="btn btn-secondary">1</button>
-    <button type="button" class="btn btn-secondary">2</button>
-    <button type="button" class="btn btn-secondary">3</button>
-    <button type="button" class="btn btn-secondary">4</button>
-  </div>
+
+    {# after this is nonsense, just pushing for keepsake in case i need something later #}
+    <br>
+    <br>
+    <br>
+
+                <div class="col">
+                <h1>Incoming Friend Requests</h1>
+                {% if not user.profile.incoming_friend_reqeust %}
+                    <p>no incoming friend requests</p>
+                {% endif %}
+                <ul>
+                    {% for p in user.profile.incoming_friend_request.all %}
+                        <li><strong><a
+                                href="{% url 'profile' p.profile_1.uuid %}">{{ p.profile_1.user.first_name }}</a></strong>
+                        </li>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-success" type="submit" name="accept_friend_request"
+                                    value="{{ p.profile_1.uuid }}">Accept
+                            </button>
+                            <button class="btn btn-danger" type="submit" name="decline_friend_request"
+                                    value="{{ p.profile_1.uuid }}">Decline
+                            </button>
+                        </form>
+                    {% endfor %}
+                </ul>
+
+                <h1>Outgoing Friend Requests</h1>
+                {% if not user.profile.outgoing_friend_reqeust %}
+                    <p>no outgoing friend requests</p>
+                {% endif %}
+                <ul>
+                    {% for p in user.profile.outgoing_friend_request.all %}
+                        <li>
+                            <strong><a
+                                    href="{% url 'profile' p.profile_2.uuid %}">{{ p.profile_2.user.first_name }}</a></strong>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-danger" type="submit"
+                                        name="cancel_friend_request"
+                                        value="{{ p.profile_2.uuid }}">Cancel
+                                </button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+    <div class="btn-group mr-2" role="group" aria-label="First group">
+        <button type="button" class="btn btn-secondary">1</button>
+        <button type="button" class="btn btn-secondary">2</button>
+        <button type="button" class="btn btn-secondary">3</button>
+        <button type="button" class="btn btn-secondary">4</button>
+    </div>
 
 
-<form action="" method="post">
-                                    {% csrf_token %}
-                                    <div class="btn-group d-flex" role="group" aria-label="Basic example">
-                                        <button type="submit" class="message btn btn-info w-100"
-                                                name="add_friend" value="{{ profile.uuid }}">Add Friend
-                                        </button>
-                                        <button type="submit" class="message btn btn-light w-100" name="Next">Next
-                                        </button>
-                                    </div>
-                                </form>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="btn-group d-flex" role="group" aria-label="Basic example">
+            <button type="submit" class="message btn btn-info w-100"
+                    name="add_friend" value="{{ profile.uuid }}">Add Friend
+            </button>
+            <button type="submit" class="message btn btn-light w-100" name="Next">Next
+            </button>
+        </div>
+    </form>
 
 
 
@@ -286,48 +355,6 @@
                 {% endif %}
             </div>
 
-            <div class="col">
-                <h1>Incoming Friend Requests</h1>
-                {% if not user.profile.incoming_friend_reqeust %}
-                    <p>no incoming friend requests</p>
-                {% endif %}
-                <ul>
-                    {% for p in user.profile.incoming_friend_request.all %}
-                        <li><strong><a
-                                href="{% url 'profile' p.profile_1.uuid %}">{{ p.profile_1.user.first_name }}</a></strong>
-                        </li>
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            <button class="btn btn-success" type="submit" name="accept_friend_request"
-                                    value="{{ p.profile_1.uuid }}">Accept
-                            </button>
-                            <button class="btn btn-danger" type="submit" name="decline_friend_request"
-                                    value="{{ p.profile_1.uuid }}">Decline
-                            </button>
-                        </form>
-                    {% endfor %}
-                </ul>
-
-                <h1>Outgoing Friend Requests</h1>
-                {% if not user.profile.outgoing_friend_reqeust %}
-                    <p>no outgoing friend requests</p>
-                {% endif %}
-                <ul>
-                    {% for p in user.profile.outgoing_friend_request.all %}
-                        <li>
-                            <strong><a
-                                    href="{% url 'profile' p.profile_2.uuid %}">{{ p.profile_2.user.first_name }}</a></strong>
-                            <form action="" method="post">
-                                {% csrf_token %}
-                                <button class="btn btn-outline-danger" type="submit"
-                                        name="cancel_friend_request"
-                                        value="{{ p.profile_2.uuid }}">Cancel
-                                </button>
-                            </form>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
 
 
 

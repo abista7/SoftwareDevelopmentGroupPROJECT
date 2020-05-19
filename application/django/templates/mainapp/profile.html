@@ -1,10 +1,8 @@
 {% extends 'mainapp/base.html' %}
-{% load crispy_forms_tags %}
 
 {% block title %}Profile{% endblock %}
 {% load static %}
 {% block content %}
-
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <div class="container emp-profile">
         <form method="post">
@@ -40,6 +38,7 @@
                         <button class="profile-edit-btn"><a href="{% url 'edit_profile' %}">Edit Profile</a></button>
                     </div>
                 {% endif %}
+
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -107,66 +106,65 @@
                     <h1>Posts</h1>
                 </div>
                 <div class="col-md-">
-                    {% if user == profile.user %}
-                        <h5>Add post
-                            <div id="cp" style="display:none">
-                                <form method="post" enctype="multipart/form-data" rows="3">
-                                    {% csrf_token %}
-                                    {{ form|crispy }}
-                                    <div>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <button type="button" class="add" onclick=showdiv("cp")>+</button>
-                            <button type="button" onclick=allowEdit("desc")>edit mode</button>
-                        </h5>
-                    {% endif %}
+                    <h5>Add post
+                        <button type="button" class="add">+</button>
+                    </h5>
                 </div>
             </div>
-            <div class="col-sm-8 left">
-                {% for post in post_list %}
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <div class="form-group shadow-textarea">
-                                <p class="profile-rating">
-                                    <button type="button" class="btn btn-sm btn-secondary" disabled>
-                                        {{ post.get_time }}
-                                    </button>
-                                </p>
-                                <form method="post">
-                                    {% csrf_token %}
-                                    <textarea name="edit_post" class="desc"
-                                              disabled="false"> {{ post.description }} </textarea>
-                                    {% if post.image %}
-                                        <img src="{{ post.image.url }}" class="img img-fluid">
-                                    {% endif %}
-                                    {% if user == profile.user %}
-                                        <button class="profile-edit-btn" type="submit" name="edit_post_id"
-                                                value={{ post.id }}>Edit
-                                        </button>
-                                    {% endif %}
-                                </form>
-                                    <form method="post">
-                                        {% csrf_token %}
-                                        <button class="btn btn-primary" name="like_post" value={{ post.id }}>
-                                            Like
-                                        </button>
-                                        {% if user == profile.user %}
-                                            <button class="btn btn-danger" type="submit" name="delete_post"
-                                                    value={{ post.id }}>
-                                                Delete
-                                            </button>
-                                        {% endif %}
-                                    </form>
-                                    <div> Likes: {{ post.like }} </div>
-                            </div>
+            <div class="col-md-8 left">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group shadow-textarea">
+                            <p class="profile-rating">
+                                <button type="button" class="btn btn-sm btn-secondary" disabled>Date Posted: 4/20/20
+                                </button>
+                            </p>
+                            <textarea disabled id="exampleFormControlTextarea1 rows=" 3">Today I was able to have a
+                            basic conversation with a match! </textarea>
                         </div>
                     </div>
-                    <hr class="mt-2 mb-5">
-                {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group shadow-textarea">
+                            <p class="profile-rating">
+                                <button type="button" class="btn btn-sm btn-secondary" disabled>Date Posted: 4/15/20
+                                </button>
+                            </p>
+                            <p id="exampleFormControlTextarea1 rows=" 3">Latte I had the other day! So cute! <br> <img
+                                src="{% static 'images/snoopy-latte-art.jpg' %}"
+                                style="width:450px;height:200px;"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group shadow-textarea">
+                            <p class="profile-rating">
+                                <button type="button" class="btn btn-sm btn-secondary" disabled>Date Posted: 4/14/20
+                                </button>
+                            </p>
+                            <textarea disabled id="exampleFormControlTextarea1 rows=" 3">One year of Spanish. I was
+                            hoping to be at a level where I could read a newspaper of book without too much trouble. I
+                            can, but it takes quite some time. So reading, listening, writing are better than speaking.
+                            For that I just don’t have the speed yet. Not enough opportunities to speak Spanish for me.
+                            I am enjoying it a lot though.</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group shadow-textarea">
+                            <p class="profile-rating">
+                                <button type="button" class="btn btn-sm btn-secondary" disabled>Date Posted: 4/09/20
+                                </button>
+                            </p>
+                            <textarea disabled id="exampleFormControlTextarea1 rows=" 3">Listening to music and watching
+                            movies is really helpful for learning a language too!</textarea>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
 {% endblock %}

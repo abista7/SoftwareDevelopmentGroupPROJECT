@@ -292,7 +292,7 @@ def settings(request):
     return render(request, 'mainapp/settings.html', context)
 
 
-<<<<<<< HEAD
+
 def setup(request):
     lang_list_alpha_3 = ['spa', 'fra', 'deu', 'eng', 'jpn', 'ita', 'zho', 'ara', 'rus', 'kor', 'por', 'heb', 'hin',
                          'nep', 'fas', 'tgl', 'hin', 'afr', 'nld', 'ben', 'tur', 'swa', 'urd']
@@ -308,7 +308,7 @@ def setup(request):
     print('language database addition script finished successfully')
 
     return HttpResponse('Script Ran')
-=======
+
 def match(request):
     context = {}
     return render(request, 'mainapp/match.html', context)
@@ -316,4 +316,4 @@ def match(request):
 def stepbar(request):
     context = {}
     return render(request, 'mainapp/stepbar.html', context)
->>>>>>> dev-mariam
+

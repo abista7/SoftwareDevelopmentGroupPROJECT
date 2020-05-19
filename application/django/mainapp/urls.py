@@ -1,14 +1,12 @@
-from django.urls import path
 
-from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include
+
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('profile/<uuid:profile_uuid>/', views.profile, name='profile'),
-    path('profile/edit/', views.profile_settings, name='edit_profile'),
-    path('register/', views.register, name='register'),
-    path('settings/', views.settings, name='settings'),
-    path('friends/', views.friends, name='friends'),
-    path('setup/', views.setup, name='setup'),
-    path('messages/', views.inbox, name='messages'),
-]
+                  path('admin/', admin.site.urls),
+                  path('', include('mainapp.urls')),
+                  path('accounts/', include('django.contrib.auth.urls')),
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

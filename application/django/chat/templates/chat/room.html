@@ -19,9 +19,17 @@
 
     const connect = () => {
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        let protocol = window.location.protocol
+        console.log(protocol)
+        let ws_type
+        if (protocol === 'https:') {
+            ws_type = 'wss://'
+        } else {
+            ws_type = 'ws://'
+        }
 
         const chatSocket = new WebSocket(
-            'wss://'
+            ws_type
             + window.location.host
             + '/ws/chat/'
             + roomName

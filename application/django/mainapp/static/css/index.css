@@ -1,3 +1,15 @@
+		/*	body{
+    			background: -webkit-linear-gradient(left, #fefefe, #FFFFFF);
+			}*/
+		a {
+  color: #3498db;
+}
+
+a:hover {
+  color: #5faee3;
+  text-decoration: none;
+}
+
 			.font{
 				font-family: "Font Awesome 5 Free";
 				color: gray;

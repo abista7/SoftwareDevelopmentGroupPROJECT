@@ -1,8 +1,17 @@
 			body{
 				height: 100%;
 				padding: 0;
-				background: rgba(0,0,0,0.02) !important;
+
 			}
+			a {
+  color: #3498db;
+}
+
+a:hover {
+  color: #5faee3;
+  text-decoration: none;
+}
+
 			.card-header{
 				background-color: white;
 				padding: 0 !important;

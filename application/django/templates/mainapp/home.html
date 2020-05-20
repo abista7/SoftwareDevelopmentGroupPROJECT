@@ -44,12 +44,14 @@
     <link href="{%static 'vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
 
 <body>
+
 <!-- ======= Header ======= -->
+<!--
 <header id="header" class="fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center">
 
         <div class="logo mr-auto">
-            <h1><a href="index.html">LingoMingo</a></h1>
+            <h1><a href="{% url 'index' %}">LingoMingo</a></h1>
         </div>
 
         <nav class="nav-menu d-none d-lg-block">
@@ -57,9 +59,9 @@
                 <li><a href="{% url 'register' %}">Register</a></li>
                 <li><a href="{% url 'login' %}">Sign In</a></li>
             </ul>
-        </nav><!-- .nav-menu -->
-    </div>
-</header><!-- End Header -->
+        </nav> .nav-menu -->
+
+<!--</headerEnd Header -->
 
 <!-- ======= Hero Section ======= -->
 <section id="hero" class="d-flex flex-column justify-content-center align-items-center">

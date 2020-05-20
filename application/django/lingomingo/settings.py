@@ -25,12 +25,13 @@ SECRET_KEY = '95(&@nca!mkxk)6on1_4go9)4nmj2y%q8q@kivx0=np&o)e(hp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'chat',
+    'channels',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -71,6 +72,23 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'lingomingo.wsgi.application'
+ASGI_APPLICATION = 'lingomingo.routing.application'
+
+if DEBUG:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer"
+        }
+    }
+else:
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                "hosts": [('127.0.0.1', 6379)],
+            },
+        },
+    }
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

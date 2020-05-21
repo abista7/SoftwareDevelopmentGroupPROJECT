@@ -9,7 +9,7 @@
 # General
 --------------------------------------------------------------*/
 body {
-<<<<<<< HEAD
+
 =======
   padding-top: 70px;
 >>>>>>> development
@@ -132,7 +132,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-menu a {
   display: block;
   position: relative;
-<<<<<<< HEAD
+
   color: #4f5a62;
 =======
   color: #000000;
@@ -347,7 +347,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #hero:before {
   content: "";
-<<<<<<< HEAD
+
   background: rgba(56, 64, 70, 0.7);
 =======
   background: silver;

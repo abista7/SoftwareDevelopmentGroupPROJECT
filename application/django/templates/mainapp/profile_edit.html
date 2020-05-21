@@ -30,10 +30,10 @@
             <br/>
             <br/>
 
-            <div class="row">
+            <div class="row profile-edit-center">
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     {% for icon in icon_list %}
-                        <label class="btn btn-secondary ">
+                        <label class="btn btn-secondary">
                             <input type="radio" name="icon" autocomplete="off" value="{{ icon }}">
                             <i class="fas fa-{{ icon }}"></i>
                         </label>
@@ -41,19 +41,34 @@
                 </div>
                 <br/>
                 <br/>
+            </div>
+            <br/>
+            <br/>
+            <div class="row">
                 <label for="fname">First Name:</label>
-                <input type="text" class="form-control col-md-2" id="fname" name="fname" value="{{ user.first_name }}">
+                <input type="text" class="form-control col-md-5 profile-edit-gap" id="fname" name="fname"
+                       value="{{ user.first_name }}">
                 <label for="lname">Last Name:</label>
-                <input type="text" class="form-control col-md-2" id="lname" name="lname" value="{{ user.last_name }}">
+                <input type="text" class="form-control col-md-5 profile-edit-gap" id="lname" name="lname"
+                       value="{{ user.last_name }}">
                 <br/>
+            </div>
+            <div class="row">
                 <label>Location:</label>
-                <input list="countries" class="form-control col-md-2" name="location"
-                       value="{{ user.profile.get_location_full_name }}">
+                <input list="countries" class="form-control col-md-5 profile-edit-gap" name="location"
+                       value="{{ user.profile.get_location_full_name }}" placeholder="Choose Location">
                 <br/>
                 <label>Email:</label>
-                <input type="email" class="form-control col-md-2" name="email" value="{{ user.email }}"> <br/>
-                <button type="submit" class="btn btn-primary">Update</button>
+                <input type="email" class="form-control col-md-5 profile-edit-gap " name="email"
+                       value="{{ user.email }}"> <br/>
             </div>
+            <br/>
+            <div class="row">
+                <div class="col text-center">
+                    <button type="submit" class="btn btn-primary profile-edit-button">Update</button>
+                </div>
+            </div>
+
         </form>
     </div>
 
@@ -67,12 +82,11 @@
             <h3>About Me</h3>
             <textarea id="about_me" name="about_me" class="form-group form-control" cols="50"
                       rows="4">{{ user.profile.about_me }}</textarea>
-            <button class="btn btn-primary profile-edit-button">Save</button>
+            <button class="btn btn-primary profile-edit-button profile-edit-center">Save</button>
         </form>
     </div>
     <br/>
     <br/>
-    <button class="btn btn-primary">Save</button>
     </form>
 
     <br/>
@@ -86,7 +100,7 @@
                     <h3>Languages You Know</h3>
                     <form action="" method="post">
                         {% csrf_token %}
-                        <input list="languages" name="add_prime_lang" class="form-control">
+                        <input list="languages" name="add_prime_lang" class="form-control" placeholder="Ex: English">
                         <button type="submit" class="btn btn-primary profile-edit-button">Add</button>
                     </form>
                     {% if user_prime_lang.count <= 1 %}
@@ -113,7 +127,7 @@
                     <h3>Learn A Language</h3>
                     <form action="" method="post">
                         {% csrf_token %}
-                        <input list="languages" name="add_learn_lang" class="form-control">
+                        <input list="languages" name="add_learn_lang" class="form-control" placeholder="Ex: Spanish">
                         <button type="submit" class="btn btn-primary profile-edit-button">Add</button>
                     </form>
 

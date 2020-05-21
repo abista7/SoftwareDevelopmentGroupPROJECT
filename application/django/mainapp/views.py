@@ -270,27 +270,9 @@ def setup(request):
     return HttpResponse('Script Ran')
 
 
-@login_required()
-def inbox(request, other_profile_uuid=''):
-    print(request.POST)
-    context = {}
-
-    if other_profile_uuid == '':
-        threads = get_thread_by_user(request.user)
-        context.update({'threads': threads})
-    else:
-        other_profile = get_profile_model().get(uuid=other_profile_uuid)
-        thread = get_or_create_thread(user1=request.user, user2=other_profile.user)
-        messages = Message.objects.filter(thread=thread)
-        context.update({'room_name': thread.id, 'messages': messages})
-
-    return render(request, 'mainapp/messages.html', context)
-
-
 def settings(request):
     context = {}
     return render(request, 'mainapp/settings.html', context)
-
 
 
 def setup(request):
@@ -309,11 +291,12 @@ def setup(request):
 
     return HttpResponse('Script Ran')
 
+
 def match(request):
     context = {}
     return render(request, 'mainapp/match.html', context)
 
+
 def stepbar(request):
     context = {}
     return render(request, 'mainapp/stepbar.html', context)
-

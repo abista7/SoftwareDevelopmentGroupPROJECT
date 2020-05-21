@@ -42,18 +42,22 @@
                 <br/>
                 <br/>
             </div>
+        <br/>
+        <br/>
              <div class="row">
                 <label for="fname">First Name:</label>
-                <input type="text" class="form-control col-md-2" id="fname" name="fname" value="{{ user.first_name }}">
+                <input type="text" class="form-control col-md-5 profile-edit-gap" id="fname" name="fname" value="{{ user.first_name }}">
                 <label for="lname">Last Name:</label>
-                <input type="text" class="form-control col-md-2" id="lname" name="lname" value="{{ user.last_name }}">
+                <input type="text" class="form-control col-md-5 profile-edit-gap" id="lname" name="lname" value="{{ user.last_name }}">
                 <br/>
+             </div>
+             <div class="row">
                 <label>Location:</label>
-                <input list="countries" class="form-control col-md-2" name="location"
+                <input list="countries" class="form-control col-md-5 profile-edit-gap" name="location"
                        value="{{ user.profile.get_location_full_name }}">
                 <br/>
                 <label>Email:</label>
-                <input type="email" class="form-control col-md-2" name="email" value="{{ user.email }}"> <br/>
+                <input type="email" class="form-control col-md-5 profile-edit-gap " name="email" value="{{ user.email }}"> <br/>
                 <button type="submit" class="btn btn-primary profile-edit-button">Update</button>
              </div>
         </form>
@@ -69,7 +73,7 @@
             <h3>About Me</h3>
             <textarea id="about_me" name="about_me" class="form-group form-control" cols="50"
                       rows="4">{{ user.profile.about_me }}</textarea>
-            <button class="btn btn-primary profile-edit-button">Save</button>
+            <button class="btn btn-primary profile-edit-button profile-edit-center">Save</button>
         </form>
     </div>
     <br/>

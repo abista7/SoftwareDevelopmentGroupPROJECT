@@ -22,3 +22,4 @@ for lang in lang_list_alpha_3:
         str(obj) + ' was added to database'
 
 print('language database addition script finished successfully')
+3

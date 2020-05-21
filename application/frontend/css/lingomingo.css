@@ -49,6 +49,8 @@ c{
     padding-top: 10px;
 }
 
+<<<<<<< HEAD:application/django/mainapp/static/css/lingomingo.css
+=======
 /***********************************
 Navigation bar
 ************************************/
@@ -122,6 +124,7 @@ Navigation bar
 .mart20{
 	margin-top: 20px;
 }
+>>>>>>> origin/development:application/frontend/css/lingomingo.css
 
 /***********************************
 Banner

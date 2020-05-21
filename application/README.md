@@ -76,7 +76,7 @@ populate the language table
 
 startup the webserver **before** creating a superuser below
 
-``` ./manager.py runserver```
+``` ./manage.py runserver```
 
 visit [localhost:8000/setup](localhost:8000/setup)
 

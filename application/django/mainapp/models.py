@@ -1,9 +1,11 @@
+import datetime
 import uuid
 
+import humanize
 import pycountry
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Q
+from django.db.models import F, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -24,7 +26,11 @@ class Profile(models.Model):
         ('F', 'Female'),
         ('O', 'Other'),
     )
-
+    # gender = models.CharField(choices=GENDERS, max_length=10, default='N/A')
+    # location = models.CharField(max_length=100, default='Earth')
+    # email = models.EmailField(default=None)
+    # profile_picture = models.URLField(default='https://i.imgur.com/OYQulGk.png')
+    # user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
     country_list = []
     for c in list(pycountry.countries):
         country_list.append((c.alpha_2.lower(), c.name))
@@ -83,6 +89,27 @@ class Profile(models.Model):
     def outgoing_friend_request(self):
         return Friend.objects.filter(profile_1=self, is_friend=False)
 
+    def create_post(self, desc):
+        Post.objects.create(profile=self, description=desc)
+
+    def delete_post(self, post_id):
+        post = Post.objects.get(id=post_id)
+        post.delete()
+
+    def edit_post(self, post_id, desc):
+        post = Post.objects.get(id=post_id)
+        post.description = desc
+        post.created_at = datetime.datetime.now()
+        Post.save(post)
+
+    def like_post(self, post_id, num):
+        post = Post.objects.get(id=post_id)
+        post.like = F('like') + num  # to prevent  race condition
+        Post.save(post)
+
+    def create_post2(self, desc, image):
+        Post.objects.create(profile=self, description=desc, image=image)
+
 
 class Friend(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -114,3 +141,31 @@ def get_profile_model():
 
 def friend_relation(self, other):
     return bool(len(Friend.objects.filter(Q(profile_1=self, profile_2=other) | Q(profile_1=other, profile_2=self))))
+
+
+class Post(models.Model):
+    description = models.CharField(max_length=200)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='post', blank=True)
+
+    def __str__(self):
+        return 'Post: ' + self.description
+
+    def get_time(self):
+        return humanize.naturaltime(self.created_at)
+
+    def get_like_count(self):
+        return Like.objects.filter(post=self).count()
+
+    def is_liked(self, profile):
+        return Like.objects.filter(post=self, profile=profile).count() > 0
+
+    def liked_by(self):
+        return Like.objects.filter(post=self)[:3]
+
+
+class Like(models.Model):
+    created_on = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)

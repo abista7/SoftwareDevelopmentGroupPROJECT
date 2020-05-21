@@ -1,6 +1,7 @@
 body{
-    background: -webkit-linear-gradient(left, #e0e0e0, #eaf4fb);
+    background: #e0e0e0;
 }
+/*-webkit-linear-gradient(left, #e0e0e0, #eaf4fb)*/
 .emp-profile{
     padding: 3%;
     margin-top: 3%;

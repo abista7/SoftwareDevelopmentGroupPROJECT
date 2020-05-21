@@ -68,14 +68,13 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h3>Add Primary Language</h3>
+                <h3>Languages You Know</h3>
                 <form action="" method="post">
                     {% csrf_token %}
                     <input list="languages" name="add_prime_lang">
                     <button type="submit" class="btn btn-success">Add</button>
                 </form>
 
-                Your Primary Languages:
                 {% if user_prime_lang.count <= 1 %}
                     {% for lang in user_prime_lang %}
                         <li>
@@ -95,14 +94,13 @@
                 {% endif %}
             </div>
             <div class="col">
-                <h3>Add Learning Language</h3>
+                <h3>Learn A Language</h3>
                 <form action="" method="post">
                     {% csrf_token %}
                     <input list="languages" name="add_learn_lang">
                     <button type="submit" class="btn btn-success">Add</button>
                 </form>
 
-                Your Learning Languages:
                 {% if user_learn_lang.count <= 1 %}
                     {% for lang in user_learn_lang %}
                         <li>

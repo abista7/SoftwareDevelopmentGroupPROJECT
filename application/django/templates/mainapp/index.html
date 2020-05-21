@@ -3,23 +3,27 @@
 
 {% block title %}Home{% endblock %}
 
+
 {% block content %}
     <link href="{% static 'css/index.css' %}" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 
     </br>
     <div class="container mb-5 emp-profile">
 
         <div class="d-flex justify-content-between mb-3">
-            <h2 class="font">Friend Requests</h2>
-            <h2 class="font">Your Matches</h2>
+            <h3>Friend Requests</h3>
+            <h3>Your Matches</h3>
             {# THIS IS THE SORT BY AT TOP RIGHT #}
             <div>
-                <select class="form-control font">
-                    <option>Sort By</option>
-                    <option>Location</option>
-                    <option>MPG (asc)</option>
-                    <option>MPG (desc)</option>
-                </select>
+                <a class="badge badge-warning" data-toggle="tooltip" title="Add as many users as you want. Once you're friends you can message each other to get started">?</a>
             </div>
 
         </div>
@@ -68,7 +72,7 @@
                                 {% for p in user.profile.outgoing_friend_request.all %}
                                     <li class="nav-item">
                                         <strong><a class="nav-link name1"
-                                                href="{% url 'profile' p.profile_2.uuid %}">{{ p.profile_2.user.first_name }}</a></strong>
+                                                   href="{% url 'profile' p.profile_2.uuid %}">{{ p.profile_2.user.first_name }}</a></strong>
                                         <form action="" method="post">
                                             {% csrf_token %}
                                             <button class="btn btn-outline-danger" type="submit"
@@ -93,15 +97,12 @@
                 <div class="card-columns">
                     {% for profile in profile_list %}
                         <div class="card">
-                            <div class="card-header">
-                                <div class="profile_pic ">
-                                    <i class="rounded-cirlce fas fa-{{ profile.profile_icon }}"></i>
-                                </div>
-                            </div>
                             <div class="card-body p-2 position-relative">
                                 <div class="d-flex justify-content-center flex-column">
                                     <div class="name_container">
-                                        <strong><a class="name" href="{%  url 'profile' profile.uuid %} ">{{ profile.user.first_name }}</strong></a>
+                                        <i class="fas fa-{{ profile.profile_icon }}"></i>
+                                        <strong><a class="name"
+                                                   href="{% url 'profile' profile.uuid %}"> {{ profile.user.first_name }}</a></strong>
                                     </div>
                                     <div class="address">United States</div>
                                 </div>
@@ -134,30 +135,35 @@
     </div>
 
 
-    {# after this is nonsense, just pushing for keepsake in case i need something later #}
-    <br>
-    <br>
-    <br>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+    
 
 
-            <div class="col-md-7 col-xl-8">
-                <h1>Find Friends</h1>
-                <form class="form-inline my-2 my-lg-0" method="post">
-                    {% csrf_token %}
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search By Name" name="search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                {% if search_results %}
-                    <h5>Results:</h5>
-                    <ul>
-                        {% for profile in search_results %}
-                            <li>
-                                <a href="{% url 'profile' profile.uuid %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
+<div class="container mb-5 emp-profile">
+    <div class="col-md-7 col-xl-8">
+        <h1>Find Friends</h1>
+        <form class="form-inline my-2 my-lg-0" method="post">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="search" placeholder="Search By Name" name="search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        {% if search_results %}
+            <h5>Results:</h5>
+            <ul>
+                {% for profile in search_results %}
+                    <li>
+                        <a href="{% url 'profile' profile.uuid %}">{{ profile.user.first_name }} {{ profile.user.last_name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
 
 
 

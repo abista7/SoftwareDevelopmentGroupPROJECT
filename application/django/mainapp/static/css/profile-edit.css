@@ -19,6 +19,10 @@ body{
 
 }
 
+.profile-edit-gap{
+    margin: auto;
+}
+
 .profile-edit-remove-button{
     background-color: lightgray;
     border: none;
@@ -33,9 +37,15 @@ body{
    border: none;
     color: white;
     cursor: pointer;
+
     background-color: #4285F4;
 }
 
 .profile-edit-aboutMe{
     background: white;
+}
+
+.profile-edit-center{
+    text-align:center;
+    display:inline-block;
 }

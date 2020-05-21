@@ -7,8 +7,9 @@
     <h1>Friends</h1>
 
     <div class="container">
+    <div class="row">
+        <h3>Friend List</h3>
         {% for friend in friend_list %}
-            <div class="row">
                 <div class="col-sm">
                     {{ friend.user.first_name }}
                 </div>

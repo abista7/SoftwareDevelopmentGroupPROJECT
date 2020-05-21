@@ -33,7 +33,9 @@
 
                 {% if profile.uuid == user.profile.uuid %}
                     <div class="col-md-2">
-                        <button class="profile-edit-btn"><a href="{% url 'edit_profile' %}">Edit Profile</a></button>
+                        <a href="{% url 'edit_profile' %}" class="btn btn-primary">
+                            Edit Profile
+                        </a>
                     </div>
                 {% endif %}
             </div>
@@ -43,7 +45,7 @@
                         <br>
                         <div class="col-md-" style="font-size: 15pt; text-align: center">
                             <label>I can teach:
-                            <br>
+                                <br>
                                 <span style="font-size: 12pt">
                                     {% for lang in profile.primary_language.all %}
                                         {{ lang }}

@@ -48,7 +48,7 @@ body{
     width: 70%;
     padding: 2%;
     font-weight: 600;
-    color: #e0e0e0;
+    background-color: whitesmoke;
     cursor: pointer;
 }
 .profile-rating{

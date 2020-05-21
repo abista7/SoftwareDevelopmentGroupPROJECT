@@ -30,10 +30,10 @@
             <br/>
             <br/>
 
-            <div class="row">
+            <div class="row profile-edit-center">
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     {% for icon in icon_list %}
-                        <label class="btn btn-secondary ">
+                        <label class="btn btn-secondary" >
                             <input type="radio" name="icon" autocomplete="off" value="{{ icon }}">
                             <i class="fas fa-{{ icon }}"></i>
                         </label>
@@ -41,6 +41,8 @@
                 </div>
                 <br/>
                 <br/>
+            </div>
+             <div class="row">
                 <label for="fname">First Name:</label>
                 <input type="text" class="form-control col-md-2" id="fname" name="fname" value="{{ user.first_name }}">
                 <label for="lname">Last Name:</label>
@@ -52,8 +54,8 @@
                 <br/>
                 <label>Email:</label>
                 <input type="email" class="form-control col-md-2" name="email" value="{{ user.email }}"> <br/>
-                <button type="submit" class="btn btn-primary">Update</button>
-            </div>
+                <button type="submit" class="btn btn-primary profile-edit-button">Update</button>
+             </div>
         </form>
     </div>
 
@@ -72,7 +74,6 @@
     </div>
     <br/>
     <br/>
-    <button class="btn btn-primary">Save</button>
     </form>
 
     <br/>

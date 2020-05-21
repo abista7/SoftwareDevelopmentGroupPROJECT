@@ -86,7 +86,7 @@
                     <h3>Languages You Know</h3>
                     <form action="" method="post">
                         {% csrf_token %}
-                        <input list="languages" name="add_prime_lang" class="form-control">
+                        <input list="languages" name="add_prime_lang" class="form-control" placeholder="Ex: English">
                         <button type="submit" class="btn btn-primary profile-edit-button">Add</button>
                     </form>
                     {% if user_prime_lang.count <= 1 %}
@@ -113,7 +113,7 @@
                     <h3>Learn A Language</h3>
                     <form action="" method="post">
                         {% csrf_token %}
-                        <input list="languages" name="add_learn_lang" class="form-control">
+                        <input list="languages" name="add_learn_lang" class="form-control" placeholder="Ex: Spanish">
                         <button type="submit" class="btn btn-primary profile-edit-button">Add</button>
                     </form>
 

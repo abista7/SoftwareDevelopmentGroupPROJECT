@@ -5,12 +5,99 @@
 {% load static %}
 
 {% block content %}
+
+
+    <head>
+        <meta charset="utf-8"/>
+        <title>Chat Room</title>
+    </head>
+
     <link href="{% static 'css/m.css' %}" rel="stylesheet" type="text/css">
+    <body>
+    <textarea id="chat-log" cols="100" rows="20">{% for msg in messages %}{{ msg.created_by.username }}:&#13;
+        {{ msg.body }}&#13;&#10;{% endfor %}</textarea><br>
+    <input id="chat-message-input" type="text" size="100"><br>
+    <input id="chat-message-submit" type="button" value="Send">
+    {{ room_name|json_script:"room-name" }}
+
+
     <script>
+
+        const scroll = () => {
+            let textarea = document.getElementById('chat-log');
+            textarea.scrollTop = textarea.scrollHeight;
+        }
+
+        const connect = () => {
+            const roomName = JSON.parse(document.getElementById('room-name').textContent);
+            let protocol = window.location.protocol
+            console.log(protocol)
+            let ws_type
+            if (protocol === 'https:') {
+                ws_type = 'wss://'
+            } else {
+                ws_type = 'ws://'
+            }
+
+            const chatSocket = new WebSocket(
+                ws_type
+                + window.location.host
+                + '/ws/chat/'
+                + roomName
+                + '/'
+            );
+
+            chatSocket.onopen = () => {
+                console.log('ws connected')
+            }
+
+            chatSocket.onmessage = (e) => {
+                const data = JSON.parse(e.data);
+                document.querySelector('#chat-log').append(data.user + ': \n' + data.message + '\n');
+                scroll()
+            };
+
+            chatSocket.onclose = (e) => {
+                console.error('Chat socket closed unexpectedly, will attempt to reconnect in 1 second');
+                setTimeout(() => {
+                    connect();
+                }, 1000)
+            };
+
+            document.querySelector('#chat-message-input').focus();
+            document.querySelector('#chat-message-input').onkeyup = function (e) {
+                if (e.keyCode === 13) {  // enter, return
+                    document.querySelector('#chat-message-submit').click();
+                }
+            };
+
+            document.querySelector('#chat-message-submit').onclick = (e) => {
+                const messageInputDom = document.querySelector('#chat-message-input');
+                const message = messageInputDom.value;
+                console.log(message)
+                chatSocket.send(JSON.stringify({
+                    'message': message
+                }));
+                messageInputDom.value = '';
+                scroll()
+            };
+        }
+        connect()
+        scroll()
+
+
         document.getElementById("nav-messages").className += " active";
+
+
     </script>
 
-{#    TODO: INTEGRATE CHAT INTO FRONTEND UI#}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    {#    TODO: INTEGRATE CHAT INTO FRONTEND UI#}
     {% if user.is_authenticated %}
         {% for thread in threads %}
             <p>{{ thread }}</p>
@@ -40,6 +127,34 @@
                     </span></div>
                     </div>
                 </div>
+
+                {% if user.is_authenticated %}
+                    {% for thread in threads %}
+                        <p>THREAD LOOP{{ thread }}</p>
+
+                        <div class="chat_list">
+                        <div class="chat_people">
+                            <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
+                                                       alt="sunil"></div>
+                            <div class="chat_ib">
+                                <h5>{{ thread}}<span class="chat_date">April 14</span></h5>
+                                <p>{{ thread.get_last_message}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                        {% for msg in thread.get_messages %}
+                            <p>IM IN MSG LOOP{{ msg.created_by.username }}: {{ msg.body }}</p>
+
+                        {% endfor %}
+
+
+
+                    {% endfor %}
+                {% endif %}
+
+
                 <div class="inbox_chat">
                     <div class="chat_list active_chat">
                         <div class="chat_people">
@@ -52,74 +167,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
-                                                       alt="sunil"></div>
-                            <div class="chat_ib">
-                                <h5>Ellen DeGeneres <span class="chat_date">April 14</span></h5>
-                                <p>Hey Ellen, I'd love to teach you how to speak Dutch lol.
-                                    Send me some free tickets to the show tho</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
-                                                       alt="sunil"></div>
-                            <div class="chat_ib">
-                                <h5>Cassie Sherman <span class="chat_date">April 02</span></h5>
-                                <p>Hola como estas? </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
-                                                       alt="sunil"></div>
-                            <div class="chat_ib">
-                                <h5>Dylan Luong <span class="chat_date">March 27</span></h5>
-                                <p>Test, which is a new approach to have all solutions
-                                    astrology under one roof.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
-                                                       alt="sunil"></div>
-                            <div class="chat_ib">
-                                <h5>Sawara Bhattarai <span class="chat_date">March 23</span></h5>
-                                <p>Test, which is a new approach to have all solutions
-                                    astrology under one roof.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
-                                                       alt="sunil"></div>
-                            <div class="chat_ib">
-                                <h5>Mariam Shahab <span class="chat_date">March 23</span></h5>
-                                <p>Test, which is a new approach to have all solutions
-                                    astrology under one roof.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="chat_list">
-                        <div class="chat_people">
-                            <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
-                                                       alt="sunil"></div>
-                            <div class="chat_ib">
-                                <h5>Arjun Bista <span class="chat_date">March 21</span></h5>
-                                <p>Test, which is a new approach to have all solutions
-                                    astrology under one roof.</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-
 
 
             <!--- This is the message box on the right side of the screen -->
@@ -238,4 +287,11 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
 {% endblock %}

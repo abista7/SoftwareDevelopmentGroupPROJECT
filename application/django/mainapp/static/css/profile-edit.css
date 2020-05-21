@@ -16,11 +16,10 @@ body{
     padding: 3%;
     margin-top: 3%;
     background: white;
-    border-radius: 0.5rem;
+
 }
 
 .profile-edit-remove-button{
-     border-radius: 1.5rem;
     background-color: lightgray;
     border: none;
 
@@ -32,7 +31,6 @@ body{
 
 .profile-edit-button{
    border: none;
-    border-radius: 1.5rem;
     color: white;
     cursor: pointer;
     background-color: #4285F4;
@@ -40,5 +38,4 @@ body{
 
 .profile-edit-aboutMe{
     background: white;
-    border-radius: 0.5rem;
 }

@@ -12,13 +12,12 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
-                        <img src="{% static 'images/cat_icon.webp' %}">
-
+                        <i class="fas fa-{{ profile.profile_icon }} fa-6x"></i>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="profile-head">
-                        <h1> {{ profile.user.username }}</h1>
+                        <h1 class="name"> {{ profile.user.username }}</h1>
                         <p class="profile-rating">Tags :
                             <button type="button" class="btn btn-sm btn-secondary" disabled>Easy to Understand</button>
                             <button type="button" class="btn btn-sm btn-secondary" disabled>Friendly</button>
@@ -42,9 +41,10 @@
                 <div class="col-md-4">
                     <div class="profile-languages">
                         <br>
-                        <div class="col-md-" style="font-size: 12pt">
-                            <label>Primary Languages:
-                                <span style="font-size: 15pt">
+                        <div class="col-md-" style="font-size: 15pt; text-align: center">
+                            <label>I can teach:
+                            <br>
+                                <span style="font-size: 12pt">
                                     {% for lang in profile.primary_language.all %}
                                         {{ lang }}
                                     {% endfor %}
@@ -52,8 +52,9 @@
                             </label>
                         </div>
                         <br>
-                        <div class="col-md-" style="font-size: 12pt">
-                            <label>Learning Languages: <span style="font-size: 15pt">
+                        <div class="col-md-" style="font-size: 15pt; text-align: center">
+                            <label>I want to learn: <span style="font-size: 12pt;">
+                            <br>
                                 {% for lang in profile.learning_language.all %}
                                     {{ lang }}
                                 {% endfor %}

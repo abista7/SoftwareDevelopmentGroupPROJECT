@@ -1,7 +1,10 @@
 body{
-    background: #e0e0e0;
+    background: whitesmoke;
 }
 /*-webkit-linear-gradient(left, #e0e0e0, #eaf4fb)*/
+.name{
+    text-transform: uppercase;
+}
 .emp-profile{
     padding: 3%;
     margin-top: 3%;
@@ -33,18 +36,19 @@ body{
     top: 0;
 }
 .profile-head h5{
+    font-family: "Font Awesome 5 Free";
     color: #333;
 }
 .profile-head h6{
     color: #0062cc;
 }
 .profile-edit-btn{
+    font-family: "Font Awesome 5 Free";
     border: none;
-    border-radius: 1.5rem;
     width: 70%;
     padding: 2%;
     font-weight: 600;
-    color: #6c757d;
+    background-color: whitesmoke;
     cursor: pointer;
 }
 .profile-rating{
@@ -53,11 +57,14 @@ body{
     margin-top: 5%;
 }
 .profile-rating span{
+    font-family: "Font Awesome 5 Free";
     color: #495057;
     font-size: 15px;
     font-weight: 600;
 }
 .profile-head .nav-tabs .nav-link{
+    font-family: "Font Awesome 5 Free";
+    text-transform: uppercase;
     font-weight:600;
     border: none;
 }
@@ -85,9 +92,11 @@ body{
     list-style: none;
 }
 .profile-tab label{
+    font-family: "Font Awesome 5 Free";
     font-weight: 600;
 }
 .profile-tab p{
+    font-family: "Font Awesome 5 Free";
     font-weight: 600;
     color: #0062cc;
 }

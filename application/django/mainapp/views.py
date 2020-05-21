@@ -9,6 +9,8 @@ from chat.models import *
 from .forms import RegisterForm, PostForm
 from .models import Language, Friend, get_profile_model, friend_relation, Post, Like
 
+lang_msg = 'Welcome to LingoMingo. Please select Languages in <a href="/profile/edit">Profile Settings</a> to start making friends'
+
 
 def index(request):
     context = {}
@@ -16,6 +18,9 @@ def index(request):
     if request.user.is_authenticated:
         # display message if user has incomplete section in settings
 
+        if not (request.user.profile.learning_language.all() and request.user.profile.primary_language.all()):
+            messages.error(request, lang_msg)
+            
         if request.method == 'POST':
             print(request.POST)  # debug purpose
 
@@ -140,6 +145,7 @@ def register(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
+            messages.info(request, 'Welcome to LingoMingo. Please select Languages to begin using our site')
             return redirect('/profile/edit')
 
     else:
@@ -157,6 +163,8 @@ def homepage(request):
 def friends(request):
     print(request.POST)
 
+    if not (request.user.profile.learning_language.all() and request.user.profile.primary_language.all()):
+        messages.error(request, lang_msg)
     # if user click on un-friend button:
     if request.method == 'POST':
         uuid = request.POST.get('unfriend')
@@ -176,6 +184,8 @@ def friends(request):
 def profile_settings(request):
     # debug
     print(request.POST)
+    if not (request.user.profile.learning_language.all() and request.user.profile.primary_language.all()):
+        messages.error(request, lang_msg)
 
     # list of profile icons for users to choose from
     # https://fontawesome.com/icons?d=gallery&c=animals&m=free

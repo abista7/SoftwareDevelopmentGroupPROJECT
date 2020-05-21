@@ -1,10 +1,7 @@
 {% extends 'mainapp/base.html' %}
-{% load static %}
 
 {% block title %}Edit Profile{% endblock %}
 {% block content %}
-
-    <link href="{% static 'css/profile-edit.css' %}" rel="stylesheet" type="text/css">
 
     {# this section is to load up countries and languages list for user selection #}
     <datalist id="countries">
@@ -20,16 +17,15 @@
     </datalist>
 
     {# this is user info section | first/last name, location and email updates here #}
-   <div class="container profile-edit-info">
-      <form action="" method="post" class="text-center">
+    <form action="" method="post" class="text-center">
         {% csrf_token %}
-        <h3 class="font">Personal Info</h3>
+        <h2>Personal Info</h2>
         <br/>
         <i class="fas fa-{{ profile.profile_icon }}"></i>
         <br/>
         <br/>
 
-        <div class="btn-group btn-group-toggle" data-toggle="buttons" class >
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
             {% for icon in icon_list %}
                 <label class="btn btn-secondary ">
                     <input type="radio" name="icon" autocomplete="off" value="{{ icon }}">
@@ -39,49 +35,46 @@
         </div>
         <br/>
         <br/>
-      <div class="row">
         <label for="fname">First Name:</label>
-        <input type="text" id="fname" class="form-control col-md-2" name="fname" value="{{ user.first_name }}">
+        <input type="text" id="fname" name="fname" value="{{ user.first_name }}">
         <label for="lname">Last Name:</label>
-        <input type="text" id="lname" class="form-control col-md-2" name="lname" value="{{ user.last_name }}">
+        <input type="text" id="lname" name="lname" value="{{ user.last_name }}">
         <br/>
-       <label>Location:</label>
-        <input list="countries" class="form-control col-md-2" name="location" value="{{ user.profile.get_location_full_name }}">
+        Location:
+        <input list="countries" name="location" value="{{ user.profile.get_location_full_name }}">
         <br/>
-        <label>Email:</label>
-        <input type="email" class="form-control col-md-2" name="email" value="{{ user.email }}"> <br/>
-        <button type="submit" class="btn btn-primary profile-edit-button">Update</button>
-      </div>
-      </form>
-   </div>
+        Email:
+        <input type="email" name="email" value="{{ user.email }}"> <br/>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+
     <br/>
     <br/>
 
     {# about me section #}
-    <div class="container profile-edit-aboutMe overflow-auto">
     <form action="" method="post" class="text-center">
         {% csrf_token %}
-        <h3 class="font">About Me</h3>
-        <textarea id="about_me" name="about_me" class="form-group form-control" cols="50"
+        <h3>About Me</h3>
+        <textarea id="about_me" name="about_me" class="form-group" cols="50"
                   rows="4">{{ user.profile.about_me }}</textarea>
-        <button class="btn btn-primary profile-edit-button">Save</button>
+        <br/>
+        <button class="btn btn-primary">Save</button>
     </form>
-    </div>
-        <br/>
-        <br/>
+
+    <br/>
+    <br/>
 
     {# the half page div for user to see add/remove their prim/learning languages #}
-     <div class="container profile-edit-aboutMe overflow-auto">
+    <div class="container">
         <div class="row">
             <div class="col">
-                <h3 class="font">Add Primary Language</h3>
+                <h3>Languages You Know</h3>
                 <form action="" method="post">
                     {% csrf_token %}
-                    <input list="languages" name="add_prime_lang" class="form-control">
-                    <button type="submit" class="btn btn-primary profile-edit-button">Add</button>
+                    <input list="languages" name="add_prime_lang">
+                    <button type="submit" class="btn btn-success">Add</button>
                 </form>
 
-                Your Primary Languages:
                 {% if user_prime_lang.count <= 1 %}
                     {% for lang in user_prime_lang %}
                         <li>
@@ -90,25 +83,24 @@
                     {% endfor %}
                 {% else %}
                     {% for lang in user_prime_lang %}
-                        <li class="profile-edit-bullet-point">
+                        <li>
                             {{ lang.name }}
                             <form action="" method="post">
                                 {% csrf_token %}
-                                <button name="remove_prime_lang" class="btn btn-light profile-edit-remove-button" value="{{ lang.name }}">remove</button>
+                                <button name="remove_prime_lang" value="{{ lang.name }}">remove</button>
                             </form>
                         </li>
                     {% endfor %}
                 {% endif %}
             </div>
             <div class="col">
-                <h3 class="font">Add Learning Language</h3>
+                <h3>Learn A Language</h3>
                 <form action="" method="post">
                     {% csrf_token %}
-                    <input list="languages" name="add_learn_lang" class="form-control">
-                    <button type="submit" class="btn btn-primary profile-edit-button">Add</button>
+                    <input list="languages" name="add_learn_lang">
+                    <button type="submit" class="btn btn-success">Add</button>
                 </form>
 
-                Your Learning Languages:
                 {% if user_learn_lang.count <= 1 %}
                     {% for lang in user_learn_lang %}
                         <li>
@@ -117,18 +109,18 @@
                     {% endfor %}
                 {% else %}
                     {% for lang in user_learn_lang %}
-                        <li class="profile-edit-bullet-point">
+                        <li>
                             {{ lang.name }}
                             <form action="" method="post">
                                 {% csrf_token %}
-                                <button name="remove_learn_lang"  class="btn btn-light profile-edit-remove-button" value="{{ lang.name }}">remove</button>
+                                <button name="remove_learn_lang" value="{{ lang.name }}">remove</button>
                             </form>
                         </li>
                     {% endfor %}
                 {% endif %}
             </div>
         </div>
-     </div>
+    </div>
 
     <br/>
     <br/>

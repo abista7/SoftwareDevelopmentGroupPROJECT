@@ -2,15 +2,12 @@ import pycountry
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
+from chat.models import *
 from .forms import RegisterForm, PostForm
 from .models import Language, Friend, get_profile_model, friend_relation, Post, Like
-
-
-# from .models import Profile, Language, Friend, get_profile_model, friend_relation, Post
 
 
 def index(request):
@@ -52,7 +49,7 @@ def index(request):
                 query = request.POST.get('search')
                 search_results = get_profile_model().filter(
                     Q(user__first_name__icontains=query) | Q(user__last_name__icontains=query))
-                if len(search_results) == 0:
+                if search_results.count() == 0:
                     messages.error(request, 'no result for the search query')
                 context.update({'search_results': search_results})
 
@@ -280,12 +277,6 @@ def setup(request):
     return HttpResponse('Script Ran')
 
 
-@login_required()
-def inbox(request):
-    print(request.POST)
-    return render(request, 'mainapp/messages.html')
-
-
 def settings(request):
     context = {}
     return render(request, 'mainapp/settings.html', context)
@@ -306,3 +297,13 @@ def setup(request):
     print('language database addition script finished successfully')
 
     return HttpResponse('Script Ran')
+
+
+def match(request):
+    context = {}
+    return render(request, 'mainapp/match.html', context)
+
+
+def stepbar(request):
+    context = {}
+    return render(request, 'mainapp/stepbar.html', context)

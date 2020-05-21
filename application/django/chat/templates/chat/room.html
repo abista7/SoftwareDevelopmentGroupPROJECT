@@ -16,30 +16,35 @@
                     </div>
                 </div>
                 <div class="inbox_chat">
-                    {% for t in all_thread %}
-                        <div class="chat_list">
+
+                    <div class="chat_list">
+                        {% for t in all_thread %}
                             {% if t.user1 == user %}
                                 <a href="{% url 'room' t.user2.profile.uuid %}">
                             {% else %}
                                 <a href="{% url 'room' t.user1.profile.uuid %}">
                             {% endif %}
-                            <div class="chat_people">
-                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
-                                                           alt="sunil"></div>
-                                <div class="chat_ib">
-                                    <h5>
-                                        {% if t.user1 == user %}
-                                            {{ t.user2.first_name }} {{ t.user2.last_name }}
-                                        {% else %}
-                                            {{ t.user1.first_name }} {{ t.user1.last_name }}
-                                        {% endif %}
-                                        <span class="chat_date">{{ t.get_last_message.get_time_delta }}</span></h5>
-                                    <p>{{ t.get_last_message.body }}</p>
-                                </div>
+                        <div class="chat_people">
+                            <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
+                                                       alt="sunil"></div>
+                            <div class="chat_ib">
+                                <h5>
+                                    {% if t.user1 == user %}
+                                        {{ t.user2.first_name }} {{ t.user2.last_name }}
+                                    {% else %}
+                                        {{ t.user1.first_name }} {{ t.user1.last_name }}
+                                    {% endif %}
+                                    <span class="chat_date">{{ t.get_last_message.get_time_delta }}</span></h5>
+                                <p>{{ t.get_last_message.body }}</p>
                             </div>
-                            </a>
                         </div>
-                    {% endfor %}
+                        </a>
+                        {% empty %}
+                            <p>Add Friends to start chatting!</p>
+                        {% endfor %}
+                    </div>
+
+
                 </div>
             </div>
             <div class="mesgs">
@@ -99,7 +104,6 @@
         const connect = () => {
             const roomName = JSON.parse(document.getElementById('room-name').textContent);
             let protocol = window.location.protocol
-            console.log(protocol)
             let ws_type
             if (protocol === 'https:') {
                 ws_type = 'wss://'
@@ -121,7 +125,6 @@
 
             chatSocket.onmessage = (e) => {
                 const data = JSON.parse(e.data);
-                console.log(data)
                 let user = data.user;
                 let msg = data.message;
 

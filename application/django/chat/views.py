@@ -1,10 +1,12 @@
 # chat/views.py
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from mainapp.models import get_profile_model
 from .models import *
 
 
+@login_required()
 def room(request, other_profile_uuid=''):
     context = {}
     if other_profile_uuid:

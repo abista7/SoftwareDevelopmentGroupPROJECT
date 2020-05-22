@@ -20,7 +20,7 @@ def index(request):
 
         if not (request.user.profile.learning_language.all() and request.user.profile.primary_language.all()):
             messages.error(request, lang_msg)
-            
+
         if request.method == 'POST':
             print(request.POST)  # debug purpose
 
@@ -145,7 +145,6 @@ def register(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.info(request, 'Welcome to LingoMingo. Please select Languages to begin using our site')
             return redirect('/profile/edit')
 
     else:
